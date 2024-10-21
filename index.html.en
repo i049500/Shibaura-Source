@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<title>S*gsot</title>
+	<meta name="description" content=""/>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+	<link rel="shortcut icon" href="https://dashboard.sic.shibaura-it.ac.jp/favicon.ico" type="image/vnd.microsoft.icon" />
+	<link rel="icon" href="https://dashboard.sic.shibaura-it.ac.jp/favicon.ico" type="image/vnd.microsoft.icon" />
+	<link rel="stylesheet" href="./css/normalize.css"/>
+	<link rel="stylesheet" href="./css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="./css/bootstrap.extra.css"/>
+	<link rel="stylesheet" href="./css/sgsot.css"/>
+	<link rel="stylesheet" href="./css/callout.css"/>
+	<link rel="stylesheet" href="./css/pf/index.css"/>
+	<link rel="stylesheet" href="./css/print.css"/>
+	<!-- 2022.07.15 打刻状況対応 追加 sakai Start-->
+	<link rel="stylesheet" href="./css/calendar.css">
+	<!-- 2022.07.15 打刻状況対応 追加 sakai End-->
+</head>
+<body class="body">
+	<!-- Requires for ADFS authentication -->
+	<script language="javascript">
+		var paths = window.location.pathname.split('/');
+		if (paths[paths.length-1] != "index.html")
+			window.location.replace("index.html"+window.location.search);
+	</script>
+	<!--#include virtual="lib.html" -->
+	<script src="./js/pf/index/messages.js.var"></script>
+	<script src="./js/pf/index.js"></script>
+	<script src="./js/graph/common.js"></script>
+	<script src="./js/graph/axes.js"></script>
+	<script src="./js/pf/prog.js"></script>
+	<script src="./js/pf/graph.js"></script>
+	<script src="./js/graph/common.js"></script>
+	<script src="./js/pf/dataset/gpa.js"></script>
+	<script src="./js/pf/dataset/toeic.js"></script>
+	<script src="./js/pf/dataset/study.js"></script>
+	<script src="./js/pf/dataset/attend.js"></script>
+	<script src="./js/pf/dataset/prog.js"></script>
+	<script src="./js/pf/dataset/attend.js"></script>
+	<script src="./js/pf/dataset/rank.js"></script>
+	<script src="./js/pf/activities/common.js"></script>
+	<script src="./js/pf/dataset/activities.js"></script>
+	<script src="./js/pf/reflection/lang.js.var"></script>
+	<script src="./js/pf/reflection.js"></script>
+	<script src="./js/Chart.bundle.min.js"></script>
+	<script src="./js/ChartUtil.js"></script>
+	<script src="./js/plugins/horizonalLines.js"></script>
+	<script src="./js/pf/print.js"></script>
+	<!-- 2022.07.15 打刻状況対応 追加 sakai Start-->
+	<script src="./js/pf/calendar.js"></script>
+	<!-- 2022.07.15 打刻状況対応 追加 sakai Start-->
+	<!-- okuda start -->
+	<script src="./js/pf/resultscommon.js"></script>
+	<script src="./js/pf/results.js"></script>
+	<!-- okuda end -->
+	<!-- okuda1 start -->
+	<script src="./js/pf/fukucoursecommon.js"></script>
+	<script src="./js/pf/fukucourse.js"></script>
+	<!-- okuda1 end -->
+	<!-- zhou 正課外活動状況 Add Start -->
+	<script src="./js/pf/activitiesInfocommon.js"></script>
+	<script src="./js/pf/activitiesInfo.js"></script>
+	<!-- zhou 正課外活動状況 Add End -->
+	<br/>
+	<!--#include virtual="nav_h.html" -->
+
+	<!-- menu sample -->
+	<ul class="nav navbar-nav menu link hidden noprint">
+		<li role="presentation"><a href="#goal">Learning Objectives</a></li>
+		<li role="presentation"><a href="#rf">Self-assessment class survey</a></li>
+		<li role="presentation"><a href="#attend">School attendance</a></li>
+		<li role="presentation"><a href="#time">Study hours</a></li>
+		<li role="presentation"><a href="#study">Number of credits earned</a></li>
+		<li role="presentation"><a href="#gpa">GPA</a></li>
+		<li role="presentation"><a id="tab_toeic" href="#toeic_gbu">TOEIC</a></li>
+		<li role="presentation" class="din-hidden"><a href="#results">Visualization of learning outcomes</a></li>
+		<li role="presentation" class="din-hidden"><a href="#fukucourse">Sub-course credit acquisition status</a></li>
+		<li role="presentation"><a href="#cefr">CEFR</a></li>
+		<!-- zhou 正課外活動状況 Add Start -->
+		<li role="presentation"><a href="#activitiesInfo">Extracurricular Activities</a></li> 
+		<!-- zhou 正課外活動状況 Add End -->
+	</ul>
+
+	<!--#include virtual="nav_f.html" -->
+	<div id="title" class="container noprint">
+		<div class="jumbotron">
+			<h1>Welcome to SIT Portfolio!</h1>
+			<br/><br/>
+			<h3>The dashboard is in preparation</h3>
+			<div id="progress"></div>
+		</div>
+	</div>
+
+    <!--div class="tab body">
+      <ul class="nav nav-tabs">
+	<li role="presentation"><a href="#goal">Learning Objectives</a></li>
+	<li role="presentation"><a href="#attend">School attendance</a></li> 
+	<li role="presentation"><a href="#time">Study hours</a></li>
+	<li role="presentation"><a href="#study">Number of credits earned</a></li>
+	<li role="presentation"><a href="#gpa">GPA</a></li>
+	<li role="presentation" class="din-hidden"><a href="#rank">Grade Ranking in the College or Program</a></li>
+	<li role="presentation"><a id="tab_toeic" href="#toeic_gbu">TOEIC</a></li>
+	<li role="presentation" class="din-hidden"><a href="#results">Visualization of learning outcomes</a></li>
+	<li role="presentation" class="din-hidden"><a href="#fukucourse">Sub-course credit acquisition status</a></li>
+	<li role="presentation"><a href="#cefr">CEFR</a></li>
+	<li role="presentation" class="din-hidden"><a href="#prog">PROG</a></li>
+      </ul>
+    </div-->
+
+    <div class="container body">
+    	<h1 class="noprint">SIT Portfolio</h1>
+    	<h1 class="setprint setPsize setPCenter">Diploma Supplements(SIT Portfolio)</h1>
+      <!--div class="bs-callout bs-callout-danger">
+	<div class="left hasira">
+	  <img src="./image/dialog/error.png"/>
+	</div>
+	<div>
+	  2019年前期の成績開示は<b>８／２２</b>を予定しています。<br/>
+	  データは準備ができたものから順次公開致します。<b>１５時頃</b>までには全てのデータの公開を完了する予定です。
+	</div>
+</div-->
+
+<div class="bs-callout bs-callout-primary gr_hidden noprint">
+	<ul>
+		<li>When using a smartphone, the screen should be in a horizontal position to make it easier to read.</li>
+		<li>On a PC, if the window is too wide, it will be difficult to see.</li>
+		<li>Press "Check details" to enlarge the graph and see more detailed information.</li>
+		<li>Print the dashboard, and you will get a "Diploma Supplement" output that shows your growth since starting college.<br/>※It is available for  Google Chrome, Firefox and Microsoft Edge.It does'not support Internet Explorer.</li>
+
+		<!--2024/5/16 武内 前課程閲覧ボタン作成 -->
+		<li class="gbu-hidden">For graduate students, the information from previous courses can be viewed below. (Available only for internal students who enrolled from the 2024 academic year onwards)</li>
+		<a href="#" class="btn btn-primary preinfocheck gbu-hidden">View Information from Previous Courses</a>
+	</ul>
+</div>
+</div>
+
+    <!--div class="container body">
+      <h3>１．現在の状態</h3>
+    </div-->      
+
+    <!--div class="row row-eq-height setprint">
+      <div class="container body">
+	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 table-responsive setPtextR" id="div_gakuseki">
+	</div>
+      </div>
+    </div-->
+    <div class="container body">
+    	<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 setPtextR setprint" id="div_gakuseki">
+    	</div>
+    </div>
+
+    <div class="container body gbu-hidden">
+    	<div class="row row-eq-height noprint">
+    		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="div_rplan">	
+    			<div class="panel panel-default panel-in-row">
+    				<div class="panel-heading heading-button">
+    					Your research plan
+    					<div class="right">
+    						<a href="#" class="btn btn-primary rplan">Check details</a>
+    					</div>
+    				</div>
+    				<div id="rplan" class="panel-body">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+
+    <div id="venq" class="container body hidden">
+    	<div class="row row-eq-height noprint">
+    		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="div_goal">	
+    			<div class="panel panel-default panel-in-row">
+    				<div class="panel-heading heading-button">
+    					Academic goals for this semester
+    					<div class="right">
+    						<a href="#" class="btn btn-primary venq">Check details</a>
+    					</div>
+    				</div>
+    				<div id="goal" class="panel-body">
+    				</div>
+    			</div>
+    		</div>
+    		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="div_rf">	
+    			<div class="panel panel-default panel-in-row">
+    				<div class="panel-heading heading-button">
+    					Self-assessment class survey
+    					<div class="right">
+    						<a href="#" class="btn btn-primary rf">Check details</a>
+    					</div>
+    				</div>
+    				<div id="body_rf" class="panel-body">
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    
+    <div class="container body" id="div_attend_time">
+    	<div class="row row-eq-height noprint">
+    		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="div_attend">
+    			<div class="panel panel-default panel-in-row">
+    				<div class="panel-heading heading-button">
+    					School attendance
+    					<div class="right">
+    						<a href="#" class="btn btn-primary attend">Check details</a>
+    					</div>
+    				</div>
+    				<div class="panel-body">
+    					<!-- 2022.07.15 打刻状況対応 修正 sakai Start-->
+<!--
+	      <div class="attend">
+		<div class="attendSummary"></div>
+		<canvas id="attendCanvas"></canvas>
+	      </div>
+	    -->
+	    <!-- xxxx年xx月を表示 -->
+	    <h1 id="header"></h1>
+	    <br/>
+	    <!-- カレンダー -->
+	    <div id="calendar"></div>
+	    <!-- 2022.07.15 打刻状況対応 修正 sakai End-->
+	  </div>
+	</div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="div_time">
+	<div class="panel panel-default panel-in-row">
+		<div class="panel-heading heading-button">
+			Hours of study outside of class
+			<div class="right">
+				<a href="http://www.sic.shibaura-it.ac.jp/sitbot/scomb-adfs-lr.pdf" class="btn btn-info" target="_new">Check out how to use it.</a>
+				<a id="MoveToStudyTimeDetail" href="#" class="btn btn-primary studyTime">Check details</a>
+			</div>
+		</div>
+		<div class="panel-body studyTime">
+			<div id="oauth2">
+				<!--#if expr="'Teachers' == env('VERSION') || 'Workers' == env('VERSION')" -->
+				<div class="alert alert-info">
+					<div class="ib vt">
+						<img src="./image/dialog/info.png">
+					</div>
+					<div class="ib vt">
+						Press "Check details",　and see your hours of study outside of class.<br/>
+					</div>
+				</div>
+				
+				<div class="alert alert-danger">
+					<div class="ib vt">
+						<img src="./image/dialog/error.png">
+					</div>
+					<div class="ib vt">
+						<b>Please use the Chrome browser from the campus network. </b>
+					</div>
+				</div>
+				<!--#else -->
+				<!--#include virtual="oauth2.html" -->
+				<!--#endif -->
+			</div>
+	      <!--div class="row">
+		  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="stsummary"><br/></div>
+		  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"-->
+		  	<div class="index" id="stsummary"></div>
+		  	<canvas id="stgraph"></canvas>
+		  	<!--/div-->
+		  </div>
+		</div>
+	</div>
+</div>
+</div>
+
+    <!--div class="container body">
+      <h3>２．今までの記録</h3>
+    </div-->      
+
+    <div class="container body">
+    	<div class="row row-eq-height">
+    		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 set50 setflatL" id="div_study">	
+    			<div class="panel panel-default panel-in-row">
+    				<div class="panel-heading heading-button setheight50">
+    					Number of credits earned
+    					<div class="right">
+    						<a href="#" class="btn btn-primary study">Check details</a>
+    					</div>
+    				</div>
+    				<div class="panel-body">
+    					<div class="creditsTotal"></div>
+    					<canvas class="setPCanvC" id="studyCanvas"></canvas>
+    				</div>
+    			</div>
+    		</div>
+    		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 set50" id="div_gpa">
+    			<div class="panel panel-default panel-in-row">
+    				<div class="panel-heading heading-button setheight50">
+    					GPA 
+    					<div class="right">
+    						<a href="#" class="btn btn-primary gpa">Check details</a>
+    					</div>
+    				</div>
+    				<div class="panel-body">
+    					<div class="recentGPA"></div>
+    					<canvas class="setPCanvC" id="GPACanvas"></canvas>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+    
+    <div class="container body college">
+    	<div class="row row-eq-height">
+    		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 set50 setflatL" id="div_rank">
+    			<div class="panel panel-default panel-in-row">
+    				<div class="panel-heading heading-button setheight50">
+    					Grade Ranking in the College or Program　
+    					<div class="right">
+    						<a href="#" class="btn btn-primary rank">Check details</a>
+    					</div>
+    				</div>
+    				<div class="panel-body">
+	      <!--div class="rank" id="rank">
+	      </div-->
+	      <span class="lastmodified"></span>	      
+	      <canvas class="setPCanvC" id="RankCanvas"></canvas>
+	    </div>
+	  </div>
+	</div>      
+	<div id="div_toeic_gbu" class="col-xs-12 col-sm-12 col-md-6 col-lg-6 set50 setflatL">
+		<div class="panel panel-default panel-in-row">
+			<div class="panel-heading heading-button setheight50">
+				TOEIC Score
+				<div class="right">
+					<a href="#" class="btn btn-success toeicticket gr_remove">Exam Admission Ticket</a>
+					<a href="#" class="btn btn-primary toeic">Check details</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="toeic">
+					<div class="toeicMax"></div>
+					<canvas class="setPCanvC" id="toeicCanvas"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>    
+</div>      
+
+<div class="container body din hidden">
+	<div class="row row-eq-height">
+		<div id="div_toeic_din" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		</div>
+		<div id="div_gw_attend" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		</div>
+	</div>
+</div>      
+
+<!--okuda start-->
+<div class="container body">
+	<div class="row row-eq-height">
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 set50" id="div_results">
+			<div class="panel panel-default panel-in-row">
+				<div class="panel-heading heading-button setheight50">
+					Visualization of Learning Results
+					<div class="right">
+						<div class="btn-group">
+							<button id="deans_btn" class="btn btn-success dropdown-toggle deans hidden" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Deans List <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu" id="deans_menu">
+							</ul>
+						</div>
+						<a href="#" class="btn btn-primary results">Check details</a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="recentResults">
+					</div>
+					<canvas class="setPCanvC" id="ResultsCanvas">
+					</canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--okuda end-->
+
+<!--2019/09/11 progとCEFERを入れ替え-->
+<div class="container body din-hidden setheight50" id="div-prog-cont">
+	<div class="panel panel-default " id="div_prog">
+		<div class="panel-heading heading-button setheight50">
+			PROG Score
+			<div class="right">
+				<a href="#" class="btn btn-primary prog">Check details</a>
+			</div>
+		</div>
+		<div class="panel-body center setheight50">
+			<div class="row">
+				<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 lt_total set5 setflatL">
+				</div>
+				<div class="col-xs-11 col-sm-11 col-md-5 col-lg-5 LT set40 setflatL">
+					<canvas class="setPCanvC set40 setflat" id="LT"></canvas>
+				</div>
+				<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 cp_total set5 setflat">
+				</div>
+				<div class="col-xs-11 col-sm-11 col-md-5 col-lg-5 CT set40 setflat">
+					<canvas class="setPCanvC set40 setflatR" id="CP"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--2019/09/12 注意書き追加-->
+<div class="row row-eq-height setprint setPbtmR">
+	<div id="venq" class="container body">
+		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 table-responsive" id="div_alert">
+			<p class="setprint setPsizeS">※The Diploma Supplement is a summary of your  growth from the time you start the university.</p>
+		</div>
+	</div>
+</div>
+
+<div class="container body setheight50 setPkaip">
+	<div class="panel panel-default setheight50" id="div_cefr">
+		<div class="panel-heading heading-button setheight50">
+			CEFR Level
+			<div class="right">
+				<a href="#" class="btn btn-primary cefr">Check details</a>
+			</div>
+		</div>
+		<div class="panel-body cefr setheight50">
+		</div>
+	</div>
+</div>      
+<!--2019/09/11 progとCEFERを入れ替え end-->
+<!-- zhou 正課外活動状況 Add Start -->
+<div class="container body setheight50">
+	<div class="panel panel-default panel-in-row"  id="div_activitiesInfo">
+		<div class="panel-heading heading-button setheight50">
+			Extracurricular Activities
+			<div class="right">
+				<a href="#" class="btn btn-primary activitiesInfo">Check details</a>
+			</div>
+		</div>
+		<div class="panel-body">
+			<h3 id="status-heading"> Last 3 years</h3>
+			<!--留学情報テーブル-->
+			<table class = "study-table">
+				<thead>
+					<tr>
+						<th colspan="3" style="font-size: 20px;">Study Information</th>
+					</tr>
+					<tr>
+						<th>Year</th>
+						<th>TotalDays</th>
+						<th>Program Name</th>
+					</tr>
+				</thead>
+				<tbody id = "study-tbody">
+					<!-- JavaScriptでデータを追加 -->
+				</tbody>
+			</table>
+			<!--アルバイト情報テーブル-->
+			<table class = "job-table">
+				<thead>
+					<tr>
+						<th colspan="3" style="font-size: 20px;">Job Information</th>
+					</tr>
+					<tr>
+						<th>Year</th>
+						<th>Job Type</th>
+						<th>Job Description</th>
+					</tr>
+				</thead>
+				<tbody id = "job-tbody">
+					<!-- JavaScriptでデータを追加 -->
+				</tbody>
+			</table>
+			<!--クラブ活動情報テーブル-->
+			<table class = "club-table">
+				<thead>
+					<tr>
+						<th colspan="3" style="font-size: 20px;">Club Activity Information</th>
+					</tr>
+					<tr>
+						<th>Year</th>
+						<th>Position</th>
+						<th>Organization Name</th>
+					</tr>
+				</thead>
+				<tbody id = "club-tbody">
+					<!-- JavaScriptでデータを追加 -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- zhou 正課外活動状況 Add End -->
+<!--#include virtual="dialog.html" -->
+<script src="./js/Dialog.js"></script>
+<script src="./js/DialogFix.js"></script>
+
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/oauth2.js"></script>
+<script src="https://apis.google.com/js/client.js?onload=handleClientLoad" charset="utf-8"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <title>S*gsot</title>
+  <meta name="description" content=""/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="stylesheet" href="./css/normalize.css"/>
+  <link rel="stylesheet" href="./css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="./css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="./css/sgsot.css"/>
+  <link rel="stylesheet" href="./css/pf/activitiesInfo.css"/>
+  <style>
+    .custom-margin {
+      margin-bottom: 20px; /* Adjust the value as needed */
+    }
+  </style>
+</head>
+<body>
+  <!--#include virtual="lib.html" -->
+  <script src="./js/jquery3.min.js"></script>
+  <script src="./js/jquery.extend.js"></script>
+  <script src="./js/pf/activitiesInfocommon.js"></script>
+  <script src="./js/pf/activitiesInfodetail.js"></script>
+  <br/>
+  <!--#include virtual="nav_h.html" -->
+  
+  <!--#include virtual="nav_f.html" -->
+  <div class="container-fluid graph">
+    <div class="nav nav_scr" >
+      <ul class="nav nav-tabs" >
+        　　<li class="active"><a href="#" class="tablink" data-tab="Study">Study Information</a></li>
+        　　　<li><a href="#" class="tablink" data-tab="Job">Job Information</a></li>
+        　　　<li><a href="#" class="tablink" data-tab="Club">Club Activity Information</a></li>
+      </ul>
+    </div>
+    <div id="Study" class="tabcontent active">
+      <h3>Study Information</h3>
+      <table id="studyTable">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Program Start Date</th>
+            <th>Program End Date</th>
+            <th>TotalDays</th>
+            <th>Country Name</th>
+            <th>Program Name</th>
+            <th>TA Participation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- JavaScriptでデータを追加 -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- タブ2の内容 -->
+    <div id="Job" class="tabcontent">
+      <h3>Job Information</h3>
+      <table id="jobTable">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Contract Start Date</th>
+            <th>Contract End Date</th>
+            <th>Job Title</th>
+            <th>Job Type</th>
+            <th>Job Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- JavaScriptでデータを追加 -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- タブ3の内容 -->
+    <div id="Club" class="tabcontent">
+      <h3>Club Activity Information</h3>
+      <table id="clubTable">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Position</th>
+            <th>Organization Name</th>
+            <th>Circle Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- JavaScriptでデータを追加 -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!--#include virtual="dialog.html" -->
+  <script src="./js/Dialog.js"></script>
+  <script src="./js/DialogFix.js"></script>
+  
+  <script src="./js/bootstrap.min.js"></script>
+  <!--script src="./js/guarantorfix.js"></script-->
+</body>
+</html>

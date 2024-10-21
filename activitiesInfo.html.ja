@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <title>S*gsot</title>
+  <meta name="description" content=""/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <link rel="stylesheet" href="./css/normalize.css"/>
+  <link rel="stylesheet" href="./css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="./css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="./css/sgsot.css"/>
+  <link rel="stylesheet" href="./css/pf/activitiesInfo.css"/>
+  <style>
+    .custom-margin {
+      margin-bottom: 20px; /* Adjust the value as needed */
+    }
+  </style>
+</head>
+<body>
+  <!--#include virtual="lib.html" -->
+  <script src="./js/jquery3.min.js"></script>
+  <script src="./js/jquery.extend.js"></script>
+  <script src="./js/pf/activitiesInfocommon.js"></script>
+  <script src="./js/pf/activitiesInfodetail.js"></script>
+  <br/>
+  <!--#include virtual="nav_h.html" -->
+  
+  <!--#include virtual="nav_f.html" -->
+  <div class="container-fluid graph">
+    <!--<div class="nav nav_scr" >
+      <ul class="nav nav-tabs" >
+        　　<li class="active"><a href="#" class="tablink" data-tab="Study">留学情報</a></li>
+        　　　<li><a href="#" class="tablink" data-tab="Job">アルバイト情報</a></li>
+        　　　<li><a href="#" class="tablink" data-tab="Club">クラブ活動情報</a></li>
+      </ul>
+    </div>-->
+    <!-- 留学情報 -->
+    <div id="studySection" class="data-section" style="display: none;">
+     <h3>留学情報</h3>
+      <table id="studyTable">
+        <thead>
+          <tr>
+            <th>年度</th>
+            <th>プログラム開始日</th>
+            <th>プログラム終了日</th>
+            <th>留学期間</th>
+            <th>国名</th>
+            <th>プログラム名</th>
+            <th>TA参加</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- JavaScriptでデータを追加 -->
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- アルバイト情報 -->
+    <div id="jobSection" class="data-section" style="display: none;">
+      <h3>アルバイト情報</h3>
+      <table id="jobTable">
+        <thead>
+          <tr>
+            <th>年度</th>
+            <th>契約開始日</th>
+            <th>契約終了日</th>
+            <th>アルバイト名</th>
+            <th>アルバイト種別</th>
+            <th>アルバイト内容</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- JavaScriptでデータを追加 -->
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- クラブ活動情報 -->
+    <div id="clubSection" class="data-section" style="display: none;">
+      <h3>クラブ活動情報</h3>
+      <table id="clubTable">
+        <thead>
+          <tr>
+            <th>年度</th>
+            <th>役職</th>
+            <th>団体名</th>
+            <th>サークル名</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- JavaScriptでデータを追加 -->
+        </tbody>
+      </table>
+    </div>
+    </div>
+  <!--#include virtual="dialog.html" -->
+  <script src="./js/Dialog.js"></script>
+  <script src="./js/DialogFix.js"></script>
+  
+  <script src="./js/bootstrap.min.js"></script>
+  <!--script src="./js/guarantorfix.js"></script-->
+</body>
+</html>
