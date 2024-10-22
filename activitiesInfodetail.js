@@ -12,15 +12,15 @@ $(function() {
         showTableData('Study', data);
         $('#studySection').show();
       }
-      
-      if(data.jobs_info && data.jobs_info.length >0){
-        showTableData('Job', data);
-        $('jobSection').show();
-      }
-      
+
       if(data.club_info && data.club_info.length >0){
         showTableData('Club', data);
-        $('clubSection').show(); 
+        $('#clubSection').show(); 
+      }
+
+      if(data.jobs_info && data.jobs_info.length >0){
+        showTableData('Job', data);
+        $('#jobSection').show();
       }
       
     });
@@ -44,25 +44,29 @@ $(function() {
     $(this).parent().addClass('active');
   });*/
 
-  // タブ名に応じてテーブルデータを表示する関数
+  // テーブルデータを表示する関数
   function showTableData(tableName, data) {
     let tableData = [];
 
-    // タブ名に対応するデータをフィルタリング
     switch (tableName) {
       case 'Study':
         tableData = data.study_info || []; // 留学情報
         break;
-      case 'Job':
-        tableData = data.jobs_info || []; // アルバイト情報
-        break;
       case 'Club':
-        tableData = data.club_info || []; // クラブ活動情報
+        tableData = data.club_info || []; // 部活動・サークル活動情報
         break;
+      case 'Job':
+        tableData = data.jobs_info || []; // 教育・研究補助業務活動情報（スチューデント・ジョブ制度）
+        break;
+
       default:
         console.warn('無効なデータ: ' + tableName);
         return;
     }
+
+    tableData.sort(function(a,b){
+      return parseInt(b.Nendo) - parseInt(a.Nendo);
+    });
 
     // テーブルの tbody をクリア
     const $tbody = $('#' + tableName.toLowerCase() + 'Table tbody');

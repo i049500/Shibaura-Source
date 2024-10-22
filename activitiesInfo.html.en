@@ -28,25 +28,26 @@
   
   <!--#include virtual="nav_f.html" -->
   <div class="container-fluid graph">
-    <div class="nav nav_scr" >
+    <!--<div class="nav nav_scr" >
       <ul class="nav nav-tabs" >
-        　　<li class="active"><a href="#" class="tablink" data-tab="Study">Study Information</a></li>
-        　　　<li><a href="#" class="tablink" data-tab="Job">Job Information</a></li>
-        　　　<li><a href="#" class="tablink" data-tab="Club">Club Activity Information</a></li>
+        　　<li class="active"><a href="#" class="tablink" data-tab="Study">留学情報</a></li>
+        　　　<li><a href="#" class="tablink" data-tab="Job">アルバイト情報</a></li>
+        　　　<li><a href="#" class="tablink" data-tab="Club">クラブ活動情報</a></li>
       </ul>
-    </div>
-    <div id="Study" class="tabcontent active">
-      <h3>Study Information</h3>
+    </div>-->
+    <!-- 留学情報 -->
+    <div id="studySection" class="data-section" style="display: none;">
+     <h3>Study Information</h3>
       <table id="studyTable">
         <thead>
           <tr>
             <th>Year</th>
-            <th>Program Start Date</th>
-            <th>Program End Date</th>
+            <th>Program start date</th>
+            <th>Program end date</th>
             <th>TotalDays</th>
-            <th>Country Name</th>
-            <th>Program Name</th>
-            <th>TA Participation</th>
+            <th>Country name</th>
+            <th>Program name</th>
+            <th>TA</th>
           </tr>
         </thead>
         <tbody>
@@ -54,37 +55,17 @@
         </tbody>
       </table>
     </div>
-
-    <!-- タブ2の内容 -->
-    <div id="Job" class="tabcontent">
-      <h3>Job Information</h3>
-      <table id="jobTable">
-        <thead>
-          <tr>
-            <th>Year</th>
-            <th>Contract Start Date</th>
-            <th>Contract End Date</th>
-            <th>Job Title</th>
-            <th>Job Type</th>
-            <th>Job Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- JavaScriptでデータを追加 -->
-        </tbody>
-      </table>
-    </div>
-
-    <!-- タブ3の内容 -->
-    <div id="Club" class="tabcontent">
-      <h3>Club Activity Information</h3>
+    
+    <!-- 部活動・サークル活動情報 -->
+    <div id="clubSection" class="data-section" style="display: none;">
+      <h3>Club and circle activity information</h3>
       <table id="clubTable">
         <thead>
           <tr>
             <th>Year</th>
+            <th>Organization name</th>
+            <th>Club name</th>
             <th>Position</th>
-            <th>Organization Name</th>
-            <th>Circle Name</th>
           </tr>
         </thead>
         <tbody>
@@ -92,7 +73,27 @@
         </tbody>
       </table>
     </div>
-  </div>
+
+    <!-- 教育・研究補助業務情報（スチューデント・ジョブ制度） -->
+    <div id="jobSection" class="data-section" style="display: none;">
+      <h3>Educational and research assistance job information (Student Job System)</h3>
+      <table id="jobTable">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Contract start date</th>
+            <th>Contract end date</th>
+            <th>Job name</th>
+            <th>Job type</th>
+            <th>Job description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- JavaScriptでデータを追加 -->
+        </tbody>
+      </table>
+    </div>
+    </div>
   <!--#include virtual="dialog.html" -->
   <script src="./js/Dialog.js"></script>
   <script src="./js/DialogFix.js"></script>

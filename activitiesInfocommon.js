@@ -36,19 +36,19 @@ function SortRecentData(data) {
         .sort((a, b) => parseInt(b.Nendo) - parseInt(a.Nendo)); // 年度の降順でソート
     }
 
-function createTableData(data, tbodyId){
+    function createTableData(data, tbodyId){
     	const tbody = document.getElementById(tbodyId);
 
 	// データが存在するかを確認するためのフラグ
     	let hasData = false;
 
-    	for(var i = 0; i<data.length; i++){
-    		if(parseInt(data[i].Nendo) >= threeYearsAgo){
-    			const row = document.createElement("tr");
+		for(var i = 0; i<data.length; i++){
+			if(parseInt(data[i].Nendo) >= threeYearsAgo){
+				const row = document.createElement("tr");
 
-    			const nendoCell = document.createElement("td");
-			    nendoCell.textContent = data[i].Nendo ; // 年度
-			    row.appendChild(nendoCell);
+				const nendoCell = document.createElement("td");
+				nendoCell.textContent = data[i].Nendo ; // 年度
+				row.appendChild(nendoCell);
 
 			if(tbodyId == "study-tbody"){ // 留学情報
 				const totalDaysCell = document.createElement("td");
@@ -59,30 +59,30 @@ function createTableData(data, tbodyId){
 				programNameCell.textContent = data[i].ProgramName !== null ? data[i].ProgramName : " "; // プログラム名
 				row.appendChild(programNameCell);
 
-			}else if(tbodyId == "job-tbody"){ // アルバイト情報
-				const jobPfCell = document.createElement("td");
-				jobPfCell.textContent = data[i].JobPfName !== null ? data[i].JobPfName : " "; // アルバイト種別
-				row.appendChild(jobPfCell);
-
-				const workNaiyoCell = document.createElement("td");
-				workNaiyoCell.textContent = data[i].WorkNaiyo !== null ? data[i].WorkNaiyo : " "; // アルバイト内容
-				row.appendChild(workNaiyoCell);
-
-			}else if(tbodyId == "club-tbody"){ // クラブ活動情報
-				const yakuinCell = document.createElement("td");
-				yakuinCell.textContent = data[i].Yakuin !== null ? data[i].Yakuin : " "; // 役職
-				row.appendChild(yakuinCell);
-
+			}else if(tbodyId == "club-tbody"){ // 部活動・サークル活動情報
 				const dantaiNameCell = document.createElement("td");
 				dantaiNameCell.textContent = data[i].DantaiName !== null ? data[i].DantaiName : " "; // 団体名
 				row.appendChild(dantaiNameCell);
+
+				const yakuinCell = document.createElement("td");
+				yakuinCell.textContent = data[i].Yakuin !== null ? data[i].Yakuin : " "; // 役職
+				row.appendChild(yakuinCell);
+			}else if(tbodyId == "job-tbody"){ // 教育・研究補助業務（スチューデント・ジョブ制度）情報
+				const jobPfCell = document.createElement("td");
+				jobPfCell.textContent = data[i].JobPfName !== null ? data[i].JobPfName : " "; // 業務種別
+				row.appendChild(jobPfCell);
+
+				const workNaiyoCell = document.createElement("td");
+				workNaiyoCell.textContent = data[i].WorkNaiyo !== null ? data[i].WorkNaiyo : " "; // 業務内容
+				row.appendChild(workNaiyoCell);
+
 			}
 			// tbodyに行を追加
 			tbody.appendChild(row);
 
 			// データが存在するためフラグを true に設定
 			hasData = true;
-		}   
+		}
 	}
 	    // データが存在しない場合は親のテーブルを非表示に設定
 	if (!hasData) {
@@ -94,11 +94,10 @@ function createTableData(data, tbodyId){
 }
 
 function generateTable($tbody,data,tabName){
-	
-    $tbody.empty(); // 既存の内容をクリア
-    	for(var i = 0; i<data.length; i++){
-    		const row = document.createElement("tr");
-    		const nendoCell = document.createElement("td");
+	$tbody.empty(); // 既存の内容をクリア
+	for(var i = 0; i<data.length; i++){
+		const row = document.createElement("tr");
+		const nendoCell = document.createElement("td");
 			nendoCell.textContent = data[i].Nendo !== null ? data[i].Nendo : " "; // 年度
 			row.append(nendoCell);
 
@@ -127,6 +126,19 @@ function generateTable($tbody,data,tabName){
 				taCell.textContent = data[i].Ta !== null ? data[i].Ta : " " ; // TA参加
 				row.append(taCell);
 
+			}else if(tabName == "Club"){ // クラブ活動情報
+				const dantaiNameCell = document.createElement("td");
+				dantaiNameCell.textContent = data[i].DantaiName !== null ? data[i].DantaiName : " "; // 団体名
+				row.append(dantaiNameCell);
+
+				const katudoKbnNameCell = document.createElement("td");
+				katudoKbnNameCell.textContent = data[i].KatudoKbnName !== null ? data[i].KatudoKbnName : " "; // 活動区分
+				row.append(katudoKbnNameCell);
+
+				const yakuinCell = document.createElement("td");
+				yakuinCell.textContent = data[i].Yakuin !== null ? data[i].Yakuin : " "; // 役職
+				row.append(yakuinCell);
+
 			}else if(tabName == "Job"){ // アルバイト情報
 				const periodFromCell = document.createElement("td");
 				periodFromCell.textContent = data[i].PeriodFrom !== null ? data[i].PeriodFrom : " "; // 契約開始日
@@ -137,30 +149,16 @@ function generateTable($tbody,data,tabName){
 				row.append(periodToCell);
 
 				const jobNameCell = document.createElement("td");
-				jobNameCell.textContent = data[i].JobName !== null ? data[i].JobName : " "; // アルバイト名
+				jobNameCell.textContent = data[i].JobName !== null ? data[i].JobName : " "; // 業務名
 				row.append(jobNameCell);
 
 				const jobPfCell = document.createElement("td");
-				jobPfCell.textContent = data[i].JobPfName !== null ? data[i].JobPfName : " "; // アルバイト種別
+				jobPfCell.textContent = data[i].JobPfName !== null ? data[i].JobPfName : " "; // 業務種別
 				row.append(jobPfCell);
 
 				const workNaiyoCell = document.createElement("td");
-				workNaiyoCell.textContent = data[i].WorkNaiyo !== null ? data[i].WorkNaiyo : " "; // アルバイト内容
+				workNaiyoCell.textContent = data[i].WorkNaiyo !== null ? data[i].WorkNaiyo : " "; // 業務内容
 				row.append(workNaiyoCell);
-
-			}else if(tabName == "Club"){ // クラブ活動情報
-				const yakuinCell = document.createElement("td");
-				yakuinCell.textContent = data[i].Yakuin !== null ? data[i].Yakuin : " "; // 役職
-				row.append(yakuinCell);
-
-				const dantaiNameCell = document.createElement("td");
-				dantaiNameCell.textContent = data[i].DantaiName !== null ? data[i].DantaiName : " "; // 団体名
-				row.append(dantaiNameCell);
-
-				const katudoKbnNameCell = document.createElement("td");
-				katudoKbnNameCell.textContent = data[i].KatudoKbnName !== null ? data[i].KatudoKbnName : " "; // 活動区分
-				row.append(katudoKbnNameCell);
-
 			}
 			// tbodyに行を追加
 			$tbody.append(row);

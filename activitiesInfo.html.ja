@@ -38,67 +38,67 @@
     <!-- 留学情報 -->
     <div id="studySection" class="data-section" style="display: none;">
      <h3>留学情報</h3>
-      <table id="studyTable">
-        <thead>
-          <tr>
-            <th>年度</th>
-            <th>プログラム開始日</th>
-            <th>プログラム終了日</th>
-            <th>留学期間</th>
-            <th>国名</th>
-            <th>プログラム名</th>
-            <th>TA参加</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- JavaScriptでデータを追加 -->
-        </tbody>
-      </table>
-    </div>
-    
-    <!-- アルバイト情報 -->
-    <div id="jobSection" class="data-section" style="display: none;">
-      <h3>アルバイト情報</h3>
-      <table id="jobTable">
-        <thead>
-          <tr>
-            <th>年度</th>
-            <th>契約開始日</th>
-            <th>契約終了日</th>
-            <th>アルバイト名</th>
-            <th>アルバイト種別</th>
-            <th>アルバイト内容</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- JavaScriptでデータを追加 -->
-        </tbody>
-      </table>
-    </div>
-    
-    <!-- クラブ活動情報 -->
-    <div id="clubSection" class="data-section" style="display: none;">
-      <h3>クラブ活動情報</h3>
-      <table id="clubTable">
-        <thead>
-          <tr>
-            <th>年度</th>
-            <th>役職</th>
-            <th>団体名</th>
-            <th>サークル名</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- JavaScriptでデータを追加 -->
-        </tbody>
-      </table>
-    </div>
-    </div>
-  <!--#include virtual="dialog.html" -->
-  <script src="./js/Dialog.js"></script>
-  <script src="./js/DialogFix.js"></script>
+     <table id="studyTable">
+      <thead>
+        <tr>
+          <th>年度</th>
+          <th>プログラム開始日</th>
+          <th>プログラム終了日</th>
+          <th>留学期間</th>
+          <th>国名</th>
+          <th>プログラム名</th>
+          <th>TA参加</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- JavaScriptでデータを追加 -->
+      </tbody>
+    </table>
+  </div>
   
-  <script src="./js/bootstrap.min.js"></script>
-  <!--script src="./js/guarantorfix.js"></script-->
+  <!-- 部活動・サークル活動情報 -->
+  <div id="clubSection" class="data-section" style="display: none;">
+    <h3>部活動・サークル活動情報</h3>
+    <table id="clubTable">
+      <thead>
+        <tr>
+          <th>年度</th>
+          <th>団体名</th>
+          <th>サークル名</th>
+          <th>役職</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- JavaScriptでデータを追加 -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 教育・研究補助業務情報（スチューデント・ジョブ制度） -->
+  <div id="jobSection" class="data-section" style="display: none;">
+    <h3>教育・研究補助業務情報（スチューデント・ジョブ制度）</h3>
+    <table id="jobTable">
+      <thead>
+        <tr>
+          <th>年度</th>
+          <th>契約開始日</th>
+          <th>契約終了日</th>
+          <th>業務名</th>
+          <th>業務種別</th>
+          <th>業務内容</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- JavaScriptでデータを追加 -->
+      </tbody>
+    </table>
+  </div>
+</div>
+<!--#include virtual="dialog.html" -->
+<script src="./js/Dialog.js"></script>
+<script src="./js/DialogFix.js"></script>
+
+<script src="./js/bootstrap.min.js"></script>
+<!--script src="./js/guarantorfix.js"></script-->
 </body>
 </html>
