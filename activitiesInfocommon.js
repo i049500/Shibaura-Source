@@ -24,7 +24,7 @@ function ActivitiesGetJSON(studyTbodyId, jobTbodyId, clubTbodyId) {
 		const hasClubData = createTableData(sortedClubData,clubTbodyId); // クラブ活動情報
 
 		if(!hasStudyData && !hasJobData && !hasClubData){
-			document.getElementById("status-heading").textContent = "ありません";
+			document.getElementById("div_activitiesInfo").style.display = 'none';
 		}
 
 	});
