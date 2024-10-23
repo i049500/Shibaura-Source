@@ -23,7 +23,11 @@ function ActivitiesGetJSON(studyTbodyId, jobTbodyId, clubTbodyId) {
 		const hasJobData = createTableData(sortedJobData,jobTbodyId); // アルバイト情報
 		const hasClubData = createTableData(sortedClubData,clubTbodyId); // クラブ活動情報
 
-		if(!hasStudyData && !hasJobData && !hasClubData){
+		// 全体でデータがあるかどうかを確認
+		const hasAnyData = hasStudyData || hasJobData || hasClubData;
+
+		// データが一切ない場合はdivを非表示にする
+		if (!hasAnyData) {
 			document.getElementById("div_activitiesInfo").style.display = 'none';
 		}
 
@@ -39,11 +43,20 @@ function SortRecentData(data) {
     function createTableData(data, tbodyId){
     	const tbody = document.getElementById(tbodyId);
 
-	// データが存在するかを確認するためのフラグ
+	    // データが存在確認フラグ
     	let hasData = false;
+    	// 3年以内データが存在確認フラグ
+    	let hasRecentData = false;
+
+    	// tbodyの内容をクリア
+        tbody.innerHTML = ''; 
 
 		for(var i = 0; i<data.length; i++){
+			if(data.length > 0){
+				hasData = true;
+			}
 			if(parseInt(data[i].Nendo) >= threeYearsAgo){
+				hasRecentData = true;
 				const row = document.createElement("tr");
 
 				const nendoCell = document.createElement("td");
@@ -79,12 +92,21 @@ function SortRecentData(data) {
 			}
 			// tbodyに行を追加
 			tbody.appendChild(row);
-
-			// データが存在するためフラグを true に設定
-			hasData = true;
 		}
 	}
-	    // データが存在しない場合は親のテーブルを非表示に設定
+
+	// ３年以内データがないけど、全部データがあるの場合、データがありませんを表示
+    if (!hasRecentData && hasData) {
+        const messageRow = document.createElement("tr");
+        const messageCell = document.createElement("td");
+        messageCell.colSpan = 3;
+        messageCell.textContent = "データがありません。";
+        messageCell.style.color = "red";
+        messageRow.appendChild(messageCell);
+        tbody.appendChild(messageRow);
+    }
+
+	// データが存在しない場合は親のテーブルを非表示に設定
 	if (!hasData) {
 		tbody.closest("table").style.display = 'none';
 	}
