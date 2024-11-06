@@ -1,0 +1,118 @@
+@charset "utf-8";
+
+/*全体*/
+.wrapper{
+    max-width: 600px;
+    margin: 0 auto;
+    color: #666;
+}
+#header {
+    text-align: center;
+    font-size: 24px;
+    width: 100%;
+    margin: 1rem 0 0;
+}
+
+/*カレンダー*/
+#calendar {
+    text-align: center;
+    width: 100%;
+}
+table {
+    table-layout: fixed;
+    outline: 2px solid #ddd;
+    border-collapse: collapse;
+    width: 100%;
+}
+th {
+    color: #000;
+}
+th, td {
+    outline: 1px solid #ddd;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+	vertical-align: top;
+}
+/*日曜日*/
+th:first-child, td:first-child {
+    color: red;
+}
+/*土曜日*/
+th:last-child, td:last-child {
+    color: blue;
+}
+/*前後月の日付*/
+td.disabled {
+    color: #ccc;
+}
+/*本日*/
+td.today {
+    background-color: #D65E72;
+    color: #fff;
+}
+
+/* zhou 正課外活動状況 Add Start */
+table.study-table th, table.study-table td {
+    color:black;
+}
+
+table.job-table th, table.job-table td {
+    color:black;
+}
+
+table.club-table th, table.club-table td {
+    color:black;
+}
+/* zhou 正課外活動状況 Add End */
+
+/* zhou 学費＆奨学金状況 Add Start */
+table.gakuhi-table th, table.gakuhi-table td {
+    color:black;
+}
+
+table.scholar-table th, table.scholar-table td {
+    color:black;
+}
+
+/* zhou 学費＆奨学金状況 Add End */
+
+/*ボタン*/
+/*
+#next-prev-button {
+    position: relative;
+}
+#next-prev-button button{
+    cursor: pointer;
+    background: #B78D4A;
+    color: #fff;
+    border: 1px solid #B78D4A;
+    border-radius: 4px;
+    font-size: 1rem;
+    padding: 0.5rem 2rem;
+    margin: 1rem 0;
+}
+#next-prev-button button:hover{
+    background-color: #D4BB92;
+    border-color: #D4BB92;
+}
+#prev {
+    float: left;
+}
+#next {
+    float: right;
+}
+*/
+@media screen and (min-width:750px){
+	#calendar .flex{
+		display: flex;
+	}
+	#calendar .right{
+		margin:5px;
+	    width: 50%;
+	}
+	#calendar .left{
+		margin:5px;
+	    width: 50%;
+	}
+}
