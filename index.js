@@ -108,6 +108,10 @@ $(function() {
      if (jq.hasClass('activitiesInfo'))
   self.location.href = './activitiesInfo.html?uid=' + uid;
 //2024.9.30 zhou add end
+//2024.11.06 zhou add start
+     if (jq.hasClass('scholar'))
+  self.location.href = './scholar.html?uid=' + uid;
+//2024.11.06 zhou add end
       //2024/5/16 武内 全課程確認ボタン start
       bcd = Personal.get('BuCD');
       if (jq.hasClass('preinfocheck') && bcd == '5')

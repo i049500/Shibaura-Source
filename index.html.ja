@@ -65,6 +65,10 @@
 	<script src="./js/pf/activitiesInfocommon.js"></script>
 	<script src="./js/pf/activitiesInfo.js"></script>
 	<!-- zhou 正課外活動状況 Add End -->
+	<!-- zhou 学費&奨学金状況 Add Start -->
+	<script src="./js/pf/scholarcommon.js"></script>
+	<script src="./js/pf/scholar.js"></script>
+	<!-- zhou 学費&奨学金状況 Add End -->
 	<br/>
 	<!--#include virtual="nav_h.html" -->
 
@@ -88,6 +92,9 @@
 		<!-- zhou 正課外活動状況 Add Start -->
 		<li role="presentation"><a href="#activitiesInfo">正課外活動状況</a></li> 
 		<!-- zhou 正課外活動状況 Add End -->
+		<!-- zhou 学費&奨学金状況 Add Start -->
+		<li role="presentation"><a href="#scholar">学費&奨学金状況</a></li> 
+		<!-- zhou 学費&奨学金 Add End -->
 	</ul>
 
 	<!--#include virtual="nav_f.html" -->
@@ -535,6 +542,33 @@
 	</div>
 </div>
 <!-- zhou 正課外活動状況 Add End -->
+<!-- zhou 学費＆奨学金状況 Add Start -->
+<div class="container body setheight50">
+	<div class="panel panel-default panel-in-row"  id="div_scholar">
+		<div class="panel-heading heading-button setheight50">
+			学費＆奨学金状況
+			<div class="right">
+				<a href="#" class="btn btn-primary scholar">詳細を確認する</a>
+			</div>
+		</div>
+		<div class="panel-body">
+			<h3> 奨学金採用状況</h3>
+			<table class = "scholar-table">
+				<thead>
+					<tr>
+						<th>年度</th>
+						<th>採用期</th>
+						<th>奨学金種別</th>
+					</tr>
+				</thead>
+				<tbody id = "scholar-tbody">
+					<!-- JavaScriptでデータを追加 -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<!-- zhou 学費＆奨学金状況 Add End -->
 <!--#include virtual="dialog.html" -->
 <script src="./js/Dialog.js"></script>
 <script src="./js/DialogFix.js"></script>
