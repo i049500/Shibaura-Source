@@ -97,7 +97,7 @@ function generateScholarTable($tbody,data,tabName){
 				row.append(seikyuYMDCell);
 
 				const seikyuGakuCell = document.createElement("td");
-				seikyuGakuCell.textContent = data[i].SeikyuGaku === 0 ? "0" : data[i].SeikyuGaku.tolocaleString("en-US");// 請求額
+				seikyuGakuCell.textContent = data[i].SeikyuGaku === 0 ? "0" : data[i].SeikyuGaku.toLocaleString("en-US");// 請求額
 				row.append(seikyuGakuCell);
 
 				const nonyuYMDCell = document.createElement("td");
@@ -140,7 +140,7 @@ function generateScholarTable($tbody,data,tabName){
 				row.append(taiyoNameCell);
 
 				const kingakuCell = document.createElement("td");
-				kingakuCell.textContent = data[i].Kingaku === 0 ? "0" : data[i].Kingaku.tolocaleString("en-US");// 金額
+				kingakuCell.textContent = data[i].Kingaku === 0 ? "0" : data[i].Kingaku.toLocaleString("en-US");// 金額
 				row.append(kingakuCell);
 
 			}
