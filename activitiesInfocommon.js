@@ -100,7 +100,7 @@ function SortRecentData(data) {
         const messageRow = document.createElement("tr");
         const messageCell = document.createElement("td");
         messageCell.colSpan = 3;
-        messageCell.textContent = "データがありません。";
+        messageCell.textContent = "３年以内情報がありません";
         messageCell.style.color = "red";
         messageRow.appendChild(messageCell);
         tbody.appendChild(messageRow);

@@ -482,7 +482,6 @@
 			</div>
 		</div>
 		<div class="panel-body">
-			<h3> 最近3年以内</h3>
 			<!--留学情報テーブル-->
 			<table class = "study-table">
 				<thead>
