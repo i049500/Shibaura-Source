@@ -43,75 +43,76 @@ function SortRecentData(data) {
     function createTableData(data, tbodyId){
     	const tbody = document.getElementById(tbodyId);
 
-	    // データが存在確認フラグ
+    // データが存在確認フラグ
     	let hasData = false;
-    	// 3年以内データが存在確認フラグ
+
+	// 3年以内データが存在確認フラグ
     	let hasRecentData = false;
 
-    	// tbodyの内容をクリア
-        tbody.innerHTML = ''; 
+	// tbodyの内容をクリア
+    	tbody.innerHTML = ''; 
 
-		for(var i = 0; i<data.length; i++){
-			if(data.length > 0){
-				hasData = true;
-			}
-			if(parseInt(data[i].Nendo) >= threeYearsAgo){
-				hasRecentData = true;
-				const row = document.createElement("tr");
+    	for(var i = 0; i<data.length; i++){
+    		if(data.length > 0){
+    			hasData = true;
+    		}
+    		if(parseInt(data[i].Nendo) >= threeYearsAgo){
+    			hasRecentData = true;
+    			const row = document.createElement("tr");
 
-				const nendoCell = document.createElement("td");
-				nendoCell.textContent = data[i].Nendo ; // 年度
-				row.appendChild(nendoCell);
+    			const nendoCell = document.createElement("td");
+			nendoCell.textContent = data[i].Nendo ; // 年度
+			row.appendChild(nendoCell);
 
-			if(tbodyId == "study-tbody"){ // 留学情報
-				const totalDaysCell = document.createElement("td");
-				totalDaysCell.textContent = data[i].TotalDays !== null ? data[i].TotalDays : " "; // 留学期間
-				row.appendChild(totalDaysCell);
+		if(tbodyId == "study-tbody"){ // 留学情報
+			const totalDaysCell = document.createElement("td");
+			totalDaysCell.textContent = data[i].TotalDays !== null ? data[i].TotalDays : " "; // 留学期間
+			row.appendChild(totalDaysCell);
 
-				const programNameCell = document.createElement("td");
-				programNameCell.textContent = data[i].ProgramName !== null ? data[i].ProgramName : " "; // プログラム名
-				row.appendChild(programNameCell);
+			const programNameCell = document.createElement("td");
+			programNameCell.textContent = data[i].ProgramName !== null ? data[i].ProgramName : " "; // プログラム名
+			row.appendChild(programNameCell);
 
-			}else if(tbodyId == "club-tbody"){ // 部活動・サークル活動情報
-				const dantaiNameCell = document.createElement("td");
-				dantaiNameCell.textContent = data[i].DantaiName !== null ? data[i].DantaiName : " "; // 団体名
-				row.appendChild(dantaiNameCell);
+		}else if(tbodyId == "club-tbody"){ // 部活動・サークル活動情報
+			const dantaiNameCell = document.createElement("td");
+			dantaiNameCell.textContent = data[i].DantaiName !== null ? data[i].DantaiName : " "; // 団体名
+			row.appendChild(dantaiNameCell);
 
-				const yakuinCell = document.createElement("td");
-				yakuinCell.textContent = data[i].Yakuin !== null ? data[i].Yakuin : " "; // 役職
-				row.appendChild(yakuinCell);
-			}else if(tbodyId == "job-tbody"){ // 教育・研究補助業務（スチューデント・ジョブ制度）情報
-				const jobPfCell = document.createElement("td");
-				jobPfCell.textContent = data[i].JobPfName !== null ? data[i].JobPfName : " "; // 業務種別
-				row.appendChild(jobPfCell);
+			const yakuinCell = document.createElement("td");
+			yakuinCell.textContent = data[i].Yakuin !== null ? data[i].Yakuin : " "; // 役職
+			row.appendChild(yakuinCell);
+		}else if(tbodyId == "job-tbody"){ // 教育・研究補助業務（スチューデント・ジョブ制度）情報
+			const jobPfCell = document.createElement("td");
+			jobPfCell.textContent = data[i].JobPfName !== null ? data[i].JobPfName : " "; // 業務種別
+			row.appendChild(jobPfCell);
 
-				const workNaiyoCell = document.createElement("td");
-				workNaiyoCell.textContent = data[i].WorkNaiyo !== null ? data[i].WorkNaiyo : " "; // 業務内容
-				row.appendChild(workNaiyoCell);
+			const workNaiyoCell = document.createElement("td");
+			workNaiyoCell.textContent = data[i].WorkNaiyo !== null ? data[i].WorkNaiyo : " "; // 業務内容
+			row.appendChild(workNaiyoCell);
 
-			}
-			// tbodyに行を追加
-			tbody.appendChild(row);
 		}
+		// tbodyに行を追加
+		tbody.appendChild(row);
 	}
+}
 
-	// ３年以内データがないけど、全部データがあるの場合、データがありませんを表示
-    if (!hasRecentData && hasData) {
-        const messageRow = document.createElement("tr");
-        const messageCell = document.createElement("td");
-        messageCell.colSpan = 3;
-        messageCell.textContent = "３年以内情報がありません";
-        messageCell.style.color = "red";
-        messageRow.appendChild(messageCell);
-        tbody.appendChild(messageRow);
-    }
+// ３年以内データがないけど、全部データがあるの場合、データがありませんを表示
+if (!hasRecentData && hasData) {
+	const messageRow = document.createElement("tr");
+	const messageCell = document.createElement("td");
+	messageCell.colSpan = 3;
+	messageCell.textContent = "３年以内情報がありません";
+	messageCell.style.color = "red";
+	messageRow.appendChild(messageCell);
+	tbody.appendChild(messageRow);
+}
 
-	// データが存在しない場合は親のテーブルを非表示に設定
-	if (!hasData) {
-		tbody.closest("table").style.display = 'none';
-	}
+// データが存在しない場合は親のテーブルを非表示に設定
+if (!hasData) {
+	tbody.closest("table").style.display = 'none';
+}
 
-	return hasData;
+return hasData;
 
 }
 
@@ -185,4 +186,4 @@ function generateTable($tbody,data,tabName){
 			// tbodyに行を追加
 			$tbody.append(row);
 		}
-}
+	}
