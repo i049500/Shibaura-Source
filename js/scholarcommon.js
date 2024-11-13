@@ -7,11 +7,15 @@ function ScholarGetJSON(scholarTbodyId) {
 	.done(function( data, textStatus, xhr) {
 		//alldata = data;
 		const scholarData = data.scholar_info;
+		const gakuhiData = data.gakuhi_info;
 	
-		 // 各データセットをフィルタリングおよび降順ソート
-		const sortedScholarData = SortScholarRecentData(scholarData);
-
-		createScholarTableData(sortedScholarData,scholarTbodyId); // 奨学金状況
+		if(gakuhiData.length>0){
+			 // 各データセットをフィルタリングおよび降順ソート
+			const sortedScholarData = SortScholarRecentData(scholarData);
+			createScholarTableData(sortedScholarData,scholarTbodyId); // 奨学金状況
+		}else{
+			document.getElementById("div_scholar").style.display = 'none';
+		}	
 	});
 }
 
