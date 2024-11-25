@@ -1,75 +1,75 @@
-$(function() { 
-  let allData = [];
-	const url = '/' + $.getQueryValue('uid') + '/Study/ActivitiesInfo/ActivitiesInfo.json';
-	$.getJSON(url)
-	.fail(function( xhr, textStatus, errorThrown) {
-    console.error('JSONデータの読み込みに失敗しました:', errorThrown);
-	})
-	.done(function( data, textStatus, xhr) {
-      allData = data;
-      // 最初のタブ（留学情報）にデータを表示
-      if(data.study_info && data.study_info.length >0){
-        showTableData('Study', data);
-        $('#studySection').show();
-      }
+$(function() {
+    let allData = [];
+    const url = '/' + $.getQueryValue('uid') + '/Study/ActivitiesInfo/ActivitiesInfo.json';
+    $.getJSON(url)
+        .fail(function(xhr, textStatus, errorThrown) {
+            console.error('JSONデータの読み込みに失敗しました:', errorThrown);
+        })
+        .done(function(data, textStatus, xhr) {
+            allData = data;
+            // 最初のタブ（留学情報）にデータを表示
+            if (data.study_info && data.study_info.length > 0) {
+                showTableData('Study', data);
+                $('#studySection').show();
+            }
 
-      if(data.club_info && data.club_info.length >0){
-        showTableData('Club', data);
-        $('#clubSection').show(); 
-      }
+            if (data.club_info && data.club_info.length > 0) {
+                showTableData('Club', data);
+                $('#clubSection').show();
+            }
 
-      if(data.jobs_info && data.jobs_info.length >0){
-        showTableData('Job', data);
-        $('#jobSection').show();
-      }
-      
-    });
-    
-  /*// タブクリックイベントの設定
-  $('.tablink').on('click', function(event) {
-    event.preventDefault();
-    const tabName = $(this).data('tab');
+            if (data.jobs_info && data.jobs_info.length > 0) {
+                showTableData('Job', data);
+                $('#jobSection').show();
+            }
 
-    // すべてのタブコンテンツを非表示にする
-    $('.tabcontent').hide();
+        });
 
-    // クリックしたタブに対応するコンテンツを表示
-    $('#' + tabName).show();
+    /*// タブクリックイベントの設定
+    $('.tablink').on('click', function(event) {
+      event.preventDefault();
+      const tabName = $(this).data('tab');
 
-    // タブデータを表示
-    showTableData(tabName, allData);
+      // すべてのタブコンテンツを非表示にする
+      $('.tabcontent').hide();
 
-    // タブのアクティブ状態を変更
-    $('.nav-tabs li').removeClass('active');
-    $(this).parent().addClass('active');
-  });*/
+      // クリックしたタブに対応するコンテンツを表示
+      $('#' + tabName).show();
 
-  // テーブルデータを表示する関数
-  function showTableData(tableName, data) {
-    let tableData = [];
+      // タブデータを表示
+      showTableData(tabName, allData);
 
-    switch (tableName) {
-      case 'Study':
-        tableData = data.study_info || []; // 留学情報
-        break;
-      case 'Club':
-        tableData = data.club_info || []; // 部活動・サークル活動情報
-        break;
-      case 'Job':
-        tableData = data.jobs_info || []; // 教育・研究補助業務活動情報（スチューデント・ジョブ制度）
-        break;
+      // タブのアクティブ状態を変更
+      $('.nav-tabs li').removeClass('active');
+      $(this).parent().addClass('active');
+    });*/
 
-      default:
-        console.warn('無効なデータ: ' + tableName);
-        return;
+    // テーブルデータを表示する関数
+    function showTableData(tableName, data) {
+        let tableData = [];
+
+        switch (tableName) {
+            case 'Study':
+                tableData = data.study_info || []; // 留学情報
+                break;
+            case 'Club':
+                tableData = data.club_info || []; // 部活動・サークル活動情報
+                break;
+            case 'Job':
+                tableData = data.jobs_info || []; // 教育・研究補助業務活動情報（スチューデント・ジョブ制度）
+                break;
+
+            default:
+                console.warn('無効なデータ: ' + tableName);
+                return;
+        }
+
+        tableData.sort(function(a, b) {
+            return parseInt(b.Nendo) - parseInt(a.Nendo);
+        });
+
+        // テーブルの tbody をクリア
+        const $tbody = $('#' + tableName.toLowerCase() + 'Table tbody');
+        generateTable($tbody, tableData, tableName);
     }
-
-    tableData.sort(function(a,b){
-      return parseInt(b.Nendo) - parseInt(a.Nendo);
-    });
-
-    // テーブルの tbody をクリア
-    const $tbody = $('#' + tableName.toLowerCase() + 'Table tbody');
-    generateTable($tbody, tableData, tableName);
-  }
 });

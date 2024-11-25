@@ -30,18 +30,36 @@
   <div class="container-fluid graph">
 
     <!-- 学費 -->
-    <div id="gakuhiSection"></div>
+    <div id="gakuhiSection" class="data-section" style="display: none;">
+     <h3>学費納入状況</h3>
+     <table id="gakuhiTable">
+      <thead>
+        <tr>
+          <th>科目</th>
+          <th>請求日</th>
+          <th>請求額</th>
+          <th>納入日</th>
+          <th>納入額</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- JavaScriptでデータを追加 -->
+      </tbody>
+    </table>
+  </div>
   
   <!-- 奨学金 -->
   <div id="scholarSection" class="data-section" style="display: none;">
-    <h3>Scholarship award status</h3>
+    <h3>奨学金採用状況</h3>
     <table id="scholarTable">
       <thead>
         <tr>
-          <th>Year</th>
-          <th>Recruitment period</th>
-          <th>Type of scholarship</th>
-          <th>Amount</th>
+          <th>採用年度</th>
+          <th>採用期</th>
+          <th>採用年次</th>
+          <th>奨学金種別</th>
+          <th>貸与/給付</th>
+          <th>金額</th>
         </tr>
       </thead>
       <tbody>

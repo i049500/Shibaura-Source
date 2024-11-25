@@ -30,27 +30,7 @@
   <div class="container-fluid graph">
 
     <!-- 学費 -->
-    <div id="gakuhiSection" class="data-section" style="display: none;">
-     <h3>学費納入状況</h3>
-     <table id="gakuhiTable">
-      <thead>
-        <tr>
-          <th>年度</th>
-          <th>納入期</th>
-          <th>年次</th>
-          <th>休学</th>
-          <th>請求日</th>
-          <th>請求額</th>
-          <th>納入日</th>
-          <th>延納願日</th>
-          <th>減免種別</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- JavaScriptでデータを追加 -->
-      </tbody>
-    </table>
-  </div>
+    <div id="gakuhiSection"></div>
   
   <!-- 奨学金 -->
   <div id="scholarSection" class="data-section" style="display: none;">
@@ -60,9 +40,7 @@
         <tr>
           <th>採用年度</th>
           <th>採用期</th>
-          <th>採用年次</th>
           <th>奨学金種別</th>
-          <th>貸与/給付</th>
           <th>金額</th>
         </tr>
       </thead>

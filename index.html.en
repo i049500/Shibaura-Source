@@ -513,6 +513,7 @@
 		</div>
 		<div class="panel-body">
 			<h3> Scholarship status (grant only)</h3>
+			<p id="scholar-count"></p>
 			<table class = "scholar-table">
 				<thead>
 					<tr>
