@@ -72,71 +72,179 @@ function createScholarTableData(data, tbodyId) {
     }
 }
 
-function generateScholarTable($tbody, data, tabName) {
-    $tbody.empty(); // 既存の内容をクリア
-    for (var i = 0; i < data.length; i++) {
-        const row = document.createElement("tr");
-        /*if (tabName == "Gakuhi") { // 学費
-            const kamokuCell = document.createElement("td");
-            if (data[i].RyokinCd == "999") {
-                kamokuCell.textContent = data[i].Nendo + (data[i].Ki === "1" ? "前" : "後") + data[i].RyokinKanji;
-                row.style.fontWeight = "bold";
-                row.style.backgroundColor = "#f2f2f2";
-            } else {
-                kamokuCell.textContent = data[i].RyokinKanji;
+$.formatCurrency = function(amount) {
+    return `${amount.toLocaleString()}`;
+};
+
+function generateScholarTable(containerId, sortedData) {
+
+	const container = $(containerId);
+    container.empty();
+    const userLang = navigator.language || navigator.userLanguage;
+
+    const translations = {
+      ja: {
+        header: "奨学金採用状況",
+        headers: ["採用年度","採用期","奨学金種別","金額"]
+      },
+      en: {
+        header: "Scholarship Award Status",
+        headers: ["Award Year","Recruitment Period","Type of Scholarship","Amount"]
+      }
+    };
+
+    const lang = userLang.startsWith("ja")? "ja":"en";
+    const t = translations[lang];
+
+    container.append(`<h3>${t.header}</h3>`);
+    
+
+                container.append(`
+            <table  style="visibility: visible; width: 100%">
+               <thead>
+                      <tr>
+                          ${t.headers.map(header => `<th>${header}</th>`).join("")}
+                      </tr>
+               </thead>
+               <tbody>
+                   ${sortedData.map(item => `
+                    <tr>
+                        <td>${item.Nendo}</td>
+                        <td>${item.SaiyoKi}</td>
+                        <td>${item.SyubetuName}</td>
+                        <td>${(item.Kingaku || 0).toLocaleString("en-US")}</td>
+                    </tr>
+                `).join('')}
+            </table>
+              `);     
+}
+
+function groupDataByNendoAndKi(data) {
+    const groupedData = {};
+    data.forEach(item => {
+        if (!groupedData[item.Nendo]) groupedData[item.Nendo] = {};
+        if (!groupedData[item.Nendo][item.Ki]) groupedData[item.Nendo][item.Ki] = [];
+        groupedData[item.Nendo][item.Ki].push(item);
+    })
+    return groupedData;
+}
+
+function generateTuitionTable(containerId, groupedData) {
+    const container = $(containerId);
+    container.empty();
+
+    const userLang = navigator.language || navigator.userLanguage;
+
+    const translations = {
+      ja: {
+        header: "学費納入状況",
+        toggleAllExpand: "すべて展開",
+        toggleAllCollapse: "すべて折りたたむ",
+        term1: "前期",
+        term2: "後期",
+        yearLabel: "年度",
+        fiscalYear: (year) => `${year}年度`,
+        billedTotal: "請求合計",
+        paidTotal: "納入合計",
+        headers: ["科目","学費データ作成日","請求額","納入日","納入額"]
+      },
+      en: {
+        header: "Tuition Payment Status",
+        toggleAllExpand: "Expand All",
+        toggleAllCollapse: "Collapse All",
+        term1: "Spring Semester",
+        term2: "Fall Semester",
+        yearLabel: "Fiscal Year",
+        fiscalYear: (year) => `Fiscal Year ${year}`,
+        billedTotal: "Total Billed",
+        paidTotal: "Total Paid",
+        headers: ["Subject","Tuition Data Creation Date","Amount Billed","Payment Date","Amount Paid"]
+      }
+    };
+
+    const lang = userLang.startsWith("ja")? "ja":"en";
+    const t = translations[lang];
+
+    container.append(`<h3>${t.header}</h3>`);
+    // 全体を制御するボタンを追加
+    container.append(`<button id="toggle-all">${t.toggleAllCollapse}</button>`);
+
+    Object.keys(groupedData).sort((a, b) => b - a).forEach(nendo => {
+        container.append(`<h4>${t.fiscalYear(nendo)}</h4>`);
+
+        const kiData = groupedData[nendo];
+        [1, 2].forEach(ki => {
+            if (kiData[ki]) {
+                const kiName = ki === 1 ?  t.term1 : t.term2;
+
+                const seikyuTotal = kiData[ki].reduce((sum, item) => sum + item.SeikyuGaku, 0);
+
+                const nonyuTotal = kiData[ki].reduce((sum, item) => sum + item.NonyuGaku, 0);
+
+                const kiId = `${nendo}-${ki}`;
+
+                container.append(`
+            <div>
+              <button class="toggle" data-target="${kiId}">-</button> ${kiName} ${t.billedTotal}: ${$.formatCurrency(seikyuTotal)} ${t.paidTotal}: ${$.formatCurrency(nonyuTotal)}
+            </div>
+            <table id = "${kiId}" style="visibility: visible; width: 100%">
+               <thead>
+                      <tr>
+                          ${t.headers.map(header => `<th>${header}</th>`).join("")}
+                      </tr>
+               </thead>
+               <tbody>
+                   ${kiData[ki].map(item => `
+                       <tr>
+                           <td>${item.RyokinKanji}</td>
+                           <td>${item.SeikyuYMD ? item.SeikyuYMD.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1/$2/$3') : ''}</td>
+                           <td>${(item.SeikyuGaku || 0).toLocaleString("en-US")}</td>
+                           <td> ${item.NonyuYMD ? item.NonyuYMD.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1/$2/$3') : ''}</td>
+                           <td>${(item.NonyuGaku || 0).toLocaleString("en-US")}</td>
+                       </tr>
+                   `).join('')}
+               </tbody>
+            </table>
+              `);
             }
-            row.append(kamokuCell);
+        });
+    });
 
-            const seikyuYMDCell = document.createElement("td");
-            if (data[i].SeikyuYMD) {
-                let seikyuYMD = data[i].SeikyuYMD.replace(/(\d{4})(\d{2})(\d{2})/, "$1/$2/$3"); // 請求日
-                seikyuYMDCell.textContent = seikyuYMD;
-            } else {
-                seikyuYMDCell.textContent = "";
-            }
-            row.append(seikyuYMDCell);
-
-            const seikyuGakuCell = document.createElement("td");
-            seikyuGakuCell.textContent = data[i].SeikyuGaku === 0 ? "0" : data[i].SeikyuGaku.toLocaleString("en-US"); // 請求額
-            row.append(seikyuGakuCell);
-
-            const nonyuYMDCell = document.createElement("td");
-            if (data[i].NonyuYMD) {
-                let nonyuYMD = data[i].NonyuYMD.replace(/(\d{4})(\d{2})(\d{2})/, "$1/$2/$3"); // 納入日
-                nonyuYMDCell.textContent = nonyuYMD;
-            } else {
-                nonyuYMDCell.textContent = "";
-            }
-            row.append(nonyuYMDCell);
-
-            const nonyuGakuCell = document.createElement("td");
-            nonyuGakuCell.textContent = data[i].NonyuGaku === 0 ? "0" : data[i].NonyuGaku.toLocaleString("en-US"); // 納入額
-            row.append(nonyuGakuCell);
-
-        } else */
-        if (tabName == "Scholar") { // 奨学金
-            const nendoCell = document.createElement("td");
-            nendoCell.textContent = data[i].Nendo !== null ? data[i].Nendo : " "; // 年度
-            row.append(nendoCell);
-
-            const saiyoKiCell = document.createElement("td");
-            saiyoKiCell.textContent = data[i].SaiyoKi !== null ? data[i].SaiyoKi : " "; // 採用期
-            row.append(saiyoKiCell);
-
-            const syubetuNameCell = document.createElement("td");
-            syubetuNameCell.textContent = data[i].SyubetuName !== null ? data[i].SyubetuName : " "; // 奨学金種別
-            row.append(syubetuNameCell);
-
-            //const taiyoNameCell = document.createElement("td");
-            //taiyoNameCell.textContent = data[i].TaiyoName !== null ? data[i].TaiyoName : " "; // 貸与/給付
-            //row.append(taiyoNameCell);
-
-            const kingakuCell = document.createElement("td");
-            kingakuCell.textContent = data[i].Kingaku === 0 ? "0" : data[i].Kingaku.toLocaleString("en-US"); // 金額
-            row.append(kingakuCell);
-
+    // 個別の展開/折りたたむ機能
+    $('.toggle').on('click', function() {
+        const targetId = $(this).data('target');
+        const targetTable = $(`#${targetId}`);
+        if (targetTable.is(':visible')) {
+            targetTable.hide();
+            $(this).text('+');
+        } else {
+            targetTable.show();
+            $(this).text('-');
         }
-        // tbodyに行を追加
-        $tbody.append(row);
-    }
+    });
+
+    // 全体の展開/折りたたみ機能
+    $('#toggle-all').on('click', function() {
+        const isExpand = $(this).text() === t.toggleAllExpand;
+        if (isExpand) {
+            // すべて展開
+            $('.toggle').each(function() {
+                const targetId = $(this).data('target');
+                const targetTable = $(`#${targetId}`);
+                targetTable.show();
+                $(this).text('-');
+            });
+            $(this).text(t.toggleAllCollapse);
+        } else {
+            // すべて折りたたむ
+            $('.toggle').each(function() {
+                const targetId = $(this).data('target');
+                const targetTable = $(`#${targetId}`);
+                targetTable.hide();
+                $(this).text('+');
+            });
+            $(this).text(t.toggleAllExpand);
+        }
+    });
+
 }

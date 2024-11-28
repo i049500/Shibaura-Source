@@ -29,26 +29,13 @@
   <!--#include virtual="nav_f.html" -->
   <div class="container-fluid graph">
 
+    <!-- 奨学金 -->
+  <div id="scholarSection"> </div>
+
     <!-- 学費 -->
     <div id="gakuhiSection"></div>
   
-  <!-- 奨学金 -->
-  <div id="scholarSection" class="data-section" style="display: none;">
-    <h3>奨学金採用状況</h3>
-    <table id="scholarTable">
-      <thead>
-        <tr>
-          <th>採用年度</th>
-          <th>採用期</th>
-          <th>奨学金種別</th>
-          <th>金額</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- JavaScriptでデータを追加 -->
-      </tbody>
-    </table>
-  </div>
+  
 </div>
 <!--#include virtual="dialog.html" -->
 <script src="./js/Dialog.js"></script>

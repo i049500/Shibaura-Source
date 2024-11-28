@@ -449,7 +449,7 @@
 			</div>
 		</div>
 		<div class="panel-body">
-			<h3> Last 3 years</h3>
+			<h3> The most recent 10 entries</h3>
 			<!--留学情報テーブル-->
 			<table class = "study-table">
 				<thead>

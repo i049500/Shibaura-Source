@@ -17,10 +17,18 @@ function ActivitiesGetJSON(studyTbodyId, jobTbodyId, clubTbodyId) {
             const sortedJobData = SortRecentData(jobData);
             const sortedClubData = SortRecentData(clubData);
 
+            const totalCount = 10;
+            const distributedData = distributeData(
+                sortedStudyData,
+                sortedJobData,
+                sortedClubData,
+                totalCount
+                );
+
             // 最近3年いないのデータを動的作成
-            const hasStudyData = createTableData(sortedStudyData, studyTbodyId); // 留学情報
-            const hasJobData = createTableData(sortedJobData, jobTbodyId); // アルバイト情報
-            const hasClubData = createTableData(sortedClubData, clubTbodyId); // クラブ活動情報
+            const hasStudyData = createTableData(distributedData.study, studyTbodyId); // 留学情報
+            const hasJobData = createTableData(distributedData.job, jobTbodyId); // アルバイト情報
+            const hasClubData = createTableData(distributedData.club, clubTbodyId); // クラブ活動情報
 
             // 全体でデータがあるかどうかを確認
             const hasAnyData = hasStudyData || hasJobData || hasClubData;
@@ -31,6 +39,22 @@ function ActivitiesGetJSON(studyTbodyId, jobTbodyId, clubTbodyId) {
             }
 
         });
+}
+
+function distributeData(studyData, jobData, clubData, totalCount){
+    const totalDatalength = studyData.length + jobData.length + clubData.length;
+
+    const studyCount = Math.round(totalCount * (studyData.length / totalDatalength));
+    const jobCount = Math.round(totalCount * (jobData.length / totalDatalength));
+    const clubCount = totalCount - studyCount - jobCount;
+
+    const distributedData = {
+        study : studyData.slice(0,studyCount),
+        job : jobData.slice(0,jobCount),
+        club : clubData.slice(0,clubCount)
+    };
+
+    return distributedData;
 }
 
 // 降順にソートする関数
@@ -58,12 +82,12 @@ function createTableData(data, tbodyId) {
             hasData = true;
         }
 
-        if(!latestData || parseInt(data[i].Nendo) > parseInt(latestData.Nendo)){
+        /*if(!latestData || parseInt(data[i].Nendo) > parseInt(latestData.Nendo)){
         	latestData = data[i];
-        }
+        }*/
 
-        if (parseInt(data[i].Nendo) >= threeYearsAgo) {
-            hasRecentData = true;
+        //if (parseInt(data[i].Nendo) >= threeYearsAgo) {
+            //hasRecentData = true;
             const row = document.createElement("tr");
 
             const nendoCell = document.createElement("td");
@@ -100,10 +124,10 @@ function createTableData(data, tbodyId) {
             // tbodyに行を追加
             tbody.appendChild(row);
         }
-    }
+    //}
 
     // ３年以内データがないけど、全部データがあるの場合、データがありませんを表示
-    if (!hasRecentData && hasData) {
+    /*if (!hasRecentData && hasData) {
             const row = document.createElement("tr");
 
             const nendoCell = document.createElement("td");
@@ -139,7 +163,7 @@ function createTableData(data, tbodyId) {
             }
             // tbodyに行を追加
             tbody.appendChild(row);
-    }
+    }*/
 
     // データが存在しない場合は親のテーブルを非表示に設定
     if (!hasData) {
