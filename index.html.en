@@ -448,57 +448,7 @@
 				<a href="#" class="btn btn-primary activitiesInfo">Check details</a>
 			</div>
 		</div>
-		<div class="panel-body">
-			<h3> The most recent 10 entries</h3>
-			<!--留学情報テーブル-->
-			<table class = "study-table">
-				<thead>
-					<tr>
-						<th colspan="3" style="font-size: 20px;">Study information</th>
-					</tr>
-					<tr>
-						<th>Year</th>
-						<th>TotalDays</th>
-						<th>Program name</th>
-					</tr>
-				</thead>
-				<tbody id = "study-tbody">
-					<!-- JavaScriptでデータを追加 -->
-				</tbody>
-			</table>
-			<!--部活動・サークル活動情報テーブル-->
-			<table class = "club-table">
-				<thead>
-					<tr>
-						<th colspan="3" style="font-size: 20px;">Club and circle activity information</th>
-					</tr>
-					<tr>
-						<th>Year</th>
-						<th>Organization name</th>
-						<th>Position</th>
-					</tr>
-				</thead>
-				<tbody id = "club-tbody">
-					<!-- JavaScriptでデータを追加 -->
-				</tbody>
-			</table>
-			<!--教育・研究補助業務情報（スチューデント・ジョブ制度）テーブル-->
-			<table class = "job-table">
-				<thead>
-					<tr>
-						<th colspan="3" style="font-size: 20px;">Educational and research assistance job information (Student Job System)</th>
-					</tr>
-					<tr>
-						<th>Year</th>
-						<th>Job type</th>
-						<th>Job description</th>
-					</tr>
-				</thead>
-				<tbody id = "job-tbody">
-					<!-- JavaScriptでデータを追加 -->
-				</tbody>
-			</table>
-		</div>
+		<div class="panel-body" id="activities-panel"></div>
 	</div>
 </div>
 <!-- zhou 正課外活動状況 Add End -->
@@ -511,22 +461,7 @@
 				<a href="#" class="btn btn-primary scholar">Check details</a>
 			</div>
 		</div>
-		<div class="panel-body">
-			<h3> Scholarship status (grant only)</h3>
-			<p id="scholar-count"></p>
-			<table class = "scholar-table">
-				<thead>
-					<tr>
-						<th>Year</th>
-						<th>Recruitment period</th>
-						<th>Type of scholarship</th>
-					</tr>
-				</thead>
-				<tbody id = "scholar-tbody">
-					<!-- JavaScriptでデータを追加 -->
-				</tbody>
-			</table>
-		</div>
+		<div class="panel-body" id="scholar-panel"></div>
 	</div>
 </div>
 <!-- zhou 学費＆奨学金状況 Add End -->

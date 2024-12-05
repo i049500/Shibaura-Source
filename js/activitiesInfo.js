@@ -1,7 +1,5 @@
 $(function() { 
-	var studyTbodyId ='study-tbody';
-	var jobTbodyId='job-tbody';
-	var clubTbodyId='club-tbody';
+	var containerId ='activities-panel';
 
-	ActivitiesGetJSON(studyTbodyId,jobTbodyId,clubTbodyId);
+	ActivitiesGetJSON(containerId);
 });

@@ -53,24 +53,13 @@ td.today {
 }
 
 /* zhou 正課外活動状況 Add Start */
-table.study-table th, table.study-table td {
+table.activities-table th, table.activities-table td {
     color:black;
 }
 
-table.job-table th, table.job-table td {
-    color:black;
-}
-
-table.club-table th, table.club-table td {
-    color:black;
-}
 /* zhou 正課外活動状況 Add End */
 
 /* zhou 学費＆奨学金状況 Add Start */
-table.gakuhi-table th, table.gakuhi-table td {
-    color:black;
-}
-
 table.scholar-table th, table.scholar-table td {
     color:black;
 }

@@ -29,7 +29,7 @@
   <!--#include virtual="nav_f.html" -->
   <div class="container-fluid graph">
     <!-- 奨学金 -->
-  <div id="scholarSection"></div>
+    <div id="scholarSection"></div>
     <!-- 学費 -->
     <div id="gakuhiSection"></div>  
 </div>

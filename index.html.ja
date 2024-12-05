@@ -488,57 +488,7 @@
 				<a href="#" class="btn btn-primary activitiesInfo">詳細を確認する</a>
 			</div>
 		</div>
-		<div class="panel-body">
-			<h3> 直近10件</h3>
-			<!--留学情報テーブル-->
-			<table class = "study-table">
-				<thead>
-					<tr>
-						<th colspan="3" style="font-size: 20px;">留学情報</th>
-					</tr>
-					<tr>
-						<th>年度</th>
-						<th>留学期間</th>
-						<th>プログラム名</th>
-					</tr>
-				</thead>
-				<tbody id = "study-tbody">
-					<!-- JavaScriptでデータを追加 -->
-				</tbody>
-			</table>
-			<!--部活動・サークル活動情報テーブル-->
-			<table class = "club-table">
-				<thead>
-					<tr>
-						<th colspan="3" style="font-size: 20px;">部活動・サークル活動情報</th>
-					</tr>
-					<tr>
-						<th>年度</th>
-						<th>団体名</th>
-						<th>役職</th>
-					</tr>
-				</thead>
-				<tbody id = "club-tbody">
-					<!-- JavaScriptでデータを追加 -->
-				</tbody>
-			</table>
-			<!--教育・研究補助業務（スチューデント・ジョブ制度）情報テーブル-->
-			<table class = "job-table">
-				<thead>
-					<tr>
-						<th colspan="3" style="font-size: 20px;">教育・研究補助業務情報（スチューデント・ジョブ制度）</th>
-					</tr>
-					<tr>
-						<th>年度</th>
-						<th>業務種別</th>
-						<th>業務内容</th>
-					</tr>
-				</thead>
-				<tbody id = "job-tbody">
-					<!-- JavaScriptでデータを追加 -->
-				</tbody>
-			</table>
-		</div>
+		<div class="panel-body" id="activities-panel"></div>
 	</div>
 </div>
 <!-- zhou 正課外活動状況 Add End -->
@@ -551,22 +501,7 @@
 				<a href="#" class="btn btn-primary scholar">詳細を確認する</a>
 			</div>
 		</div>
-		<div class="panel-body">
-			<h3> 奨学金採用状況（給付のみ）</h3>
-			<p id="scholar-count"></p>
-			<table class = "scholar-table">
-				<thead>
-					<tr>
-						<th>年度</th>
-						<th>採用期</th>
-						<th>奨学金種別</th>
-					</tr>
-				</thead>
-				<tbody id = "scholar-tbody">
-					<!-- JavaScriptでデータを追加 -->
-				</tbody>
-			</table>
-		</div>
+		<div class="panel-body" id="scholar-panel"></div>
 	</div>
 </div>
 <!-- zhou 学費＆奨学金状況 Add End -->

@@ -1,5 +1,4 @@
 $(function() { 
-	var scholarTbodyId ='scholar-tbody';
-
-	ScholarGetJSON(scholarTbodyId);
+	var containerId ='scholar-panel';
+	ScholarGetJSON(containerId);
 });

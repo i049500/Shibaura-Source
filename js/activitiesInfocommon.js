@@ -1,13 +1,11 @@
-const currentYear = new Date().getFullYear();
-const threeYearsAgo = currentYear - 3; // 3年前の年
+const userLang_activities = navigator.language || navigator.userLanguage; // ユーザーのブラウザの言語を取得
 
-function ActivitiesGetJSON(studyTbodyId, jobTbodyId, clubTbodyId) {
+function ActivitiesGetJSON(containerId) {
 
     const url = '/' + $.getQueryValue('uid') + '/Study/ActivitiesInfo/ActivitiesInfo.json';
     $.getJSON(url)
         .fail(function(xhr, textStatus, errorThrown) {})
         .done(function(data, textStatus, xhr) {
-            //alldata = data;
             const studyData = data.study_info;
             const jobData = data.jobs_info;
             const clubData = data.club_info;
@@ -23,25 +21,19 @@ function ActivitiesGetJSON(studyTbodyId, jobTbodyId, clubTbodyId) {
                 sortedJobData,
                 sortedClubData,
                 totalCount
-                );
+            );
 
             // 最近3年いないのデータを動的作成
-            const hasStudyData = createTableData(distributedData.study, studyTbodyId); // 留学情報
-            const hasJobData = createTableData(distributedData.job, jobTbodyId); // アルバイト情報
-            const hasClubData = createTableData(distributedData.club, clubTbodyId); // クラブ活動情報
-
-            // 全体でデータがあるかどうかを確認
-            const hasAnyData = hasStudyData || hasJobData || hasClubData;
+            const hasData = createTableData(distributedData, containerId); // 留学情報
 
             // データが一切ない場合はdivを非表示にする
-            if (!hasAnyData) {
+            if (!hasData) {
                 document.getElementById("div_activitiesInfo").style.display = 'none';
             }
-
         });
 }
 
-function distributeData(studyData, jobData, clubData, totalCount){
+function distributeData(studyData, jobData, clubData, totalCount) {
     const totalDatalength = studyData.length + jobData.length + clubData.length;
 
     const studyCount = Math.round(totalCount * (studyData.length / totalDatalength));
@@ -49,9 +41,9 @@ function distributeData(studyData, jobData, clubData, totalCount){
     const clubCount = totalCount - studyCount - jobCount;
 
     const distributedData = {
-        study : studyData.slice(0,studyCount),
-        job : jobData.slice(0,jobCount),
-        club : clubData.slice(0,clubCount)
+        study: studyData.slice(0, studyCount),
+        job: jobData.slice(0, jobCount),
+        club: clubData.slice(0, clubCount)
     };
 
     return distributedData;
@@ -63,185 +55,255 @@ function SortRecentData(data) {
         .sort((a, b) => parseInt(b.Nendo) - parseInt(a.Nendo)); // 年度の降順でソート
 }
 
-function createTableData(data, tbodyId) {
-    const tbody = document.getElementById(tbodyId);
-
+function createTableData(distributedData, containerId) {
+    const container = document.getElementById(containerId);
     // データが存在確認フラグ
     let hasData = false;
 
-    // 3年以内データが存在確認フラグ
-    let hasRecentData = false;
+    // 日本語と英語の文言を格納
+    const translations = {
+        ja: {
+            header: "直近10件",
+            headers: {
+                study: {
+                    title1: ["留学情報"],
+                    title2: ["年度", "留学期間", "プログラム名"]
+                },
+                club: {
+                    title1: ["部活動・サークル活動情報"],
+                    title2: ["年度", "団体名", "役職"]
+                },
+                job: {
+                    title1: ["教育・研究補助業務情報（スチューデント・ジョブ制度）"],
+                    title2: ["年度", "業務種別", "業務内容"]
+                }
+            }
+        },
+        en: {
+            header: "The most recent 10 entries",
+            headers: {
+                study: {
+                    title1: ["Study information"],
+                    title2: ["Year", "TotalDays", "Program name"]
+                },
+                club: {
+                    title1: ["Club and circle activity information"],
+                    title2: ["Year", "Organization name", "Position"]
+                },
+                job: {
+                    title1: ["Educational and research assistance job information (Student Job System)"],
+                    title2: ["Year", "Job type", "Job description"]
+                }
+            }
+        }
+    };
 
-    let latestData = null;
+    const lang = userLang_activities.startsWith("ja") ? "ja" : "en"; // 言語が日本語の場合は"ja"、それ以外は"en"に設定
+    const t = translations[lang]; // 選択された言語に基づいて翻訳を取得
 
-    // tbodyの内容をクリア
-    tbody.innerHTML = '';
+    container.innerHTML = `<h3>${t.header}</h3>`;
 
-    for (var i = 0; i < data.length; i++) {
+    const typeMap = {
+        study: {
+            data: distributedData.study,
+            headerstitle: t.headers.study.title1,
+            headers: t.headers.study.title2,
+            rowTemplate: (item) => `
+                <tr>
+                    <td>${item.Nendo}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.TotalDays}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.ProgramName}</td>
+                </tr>
+            `
+        },
+        club: {
+            data: distributedData.club,
+            headerstitle: t.headers.club.title1,
+            headers: t.headers.club.title2,
+            rowTemplate: (item) => `
+                <tr>
+                    <td>${item.Nendo}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.DantaiName}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.Yakuin}</td>
+                </tr>
+            `
+        },
+        job: {
+            data: distributedData.job,
+            headerstitle: t.headers.job.title1,
+            headers: t.headers.job.title2,
+            rowTemplate: (item) => `
+                <tr>
+                    <td>${item.Nendo}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.JobPfName}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.WorkNaiyo}</td>
+                </tr>
+            `
+        }
+    };
+    //データがある場合、該当テーブル作成
+    for (const [type, {data,headerstitle,headers,rowTemplate}] of Object.entries(typeMap)) {
         if (data.length > 0) {
             hasData = true;
+
+            container.innerHTML += `
+                <table class = "activities-table">
+                    <thead>
+                        <tr>
+                            ${headerstitle.map(header => `<th colspan="3" style="font-size: 20px; text-align: left; left; padding-left: 10px">${header}</th>`).join("")}
+                        </tr>
+                        <tr>
+                            ${headers.map((header,index) => {
+                                if(type === 'study' && (header === t.headers.study.title2[1] || header === t.headers.study.title2[2])){
+                                    return `<th style="text-align: left; padding-left: 10px">${header}</th>`;
+                                }
+                                if(type === 'club' && (header === t.headers.club.title2[1] || header === t.headers.club.title2[2])){
+                                    return `<th style="text-align: left; left; padding-left: 10px">${header}</th>`;
+                                }
+                                if(type === 'job' && (header === t.headers.job.title2[1] || header === t.headers.job.title2[2])){
+                                    return `<th style="text-align: left; left; padding-left: 10px">${header}</th>`;
+                                }
+                                return `<th>${header}</th>`;
+                             }).join("")}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.map(rowTemplate).join("")}
+                    </tbody>
+                </table>
+            `;
         }
-
-        /*if(!latestData || parseInt(data[i].Nendo) > parseInt(latestData.Nendo)){
-        	latestData = data[i];
-        }*/
-
-        //if (parseInt(data[i].Nendo) >= threeYearsAgo) {
-            //hasRecentData = true;
-            const row = document.createElement("tr");
-
-            const nendoCell = document.createElement("td");
-            nendoCell.textContent = data[i].Nendo; // 年度
-            row.appendChild(nendoCell);
-
-            if (tbodyId == "study-tbody") { // 留学情報
-                const totalDaysCell = document.createElement("td");
-                totalDaysCell.textContent = data[i].TotalDays !== null ? data[i].TotalDays : " "; // 留学期間
-                row.appendChild(totalDaysCell);
-
-                const programNameCell = document.createElement("td");
-                programNameCell.textContent = data[i].ProgramName !== null ? data[i].ProgramName : " "; // プログラム名
-                row.appendChild(programNameCell);
-
-            } else if (tbodyId == "club-tbody") { // 部活動・サークル活動情報
-                const dantaiNameCell = document.createElement("td");
-                dantaiNameCell.textContent = data[i].DantaiName !== null ? data[i].DantaiName : " "; // 団体名
-                row.appendChild(dantaiNameCell);
-
-                const yakuinCell = document.createElement("td");
-                yakuinCell.textContent = data[i].Yakuin !== null ? data[i].Yakuin : " "; // 役職
-                row.appendChild(yakuinCell);
-            } else if (tbodyId == "job-tbody") { // 教育・研究補助業務（スチューデント・ジョブ制度）情報
-                const jobPfCell = document.createElement("td");
-                jobPfCell.textContent = data[i].JobPfName !== null ? data[i].JobPfName : " "; // 業務種別
-                row.appendChild(jobPfCell);
-
-                const workNaiyoCell = document.createElement("td");
-                workNaiyoCell.textContent = data[i].WorkNaiyo !== null ? data[i].WorkNaiyo : " "; // 業務内容
-                row.appendChild(workNaiyoCell);
-
-            }
-            // tbodyに行を追加
-            tbody.appendChild(row);
-        }
-    //}
-
-    // ３年以内データがないけど、全部データがあるの場合、データがありませんを表示
-    /*if (!hasRecentData && hasData) {
-            const row = document.createElement("tr");
-
-            const nendoCell = document.createElement("td");
-            nendoCell.textContent = latestData.Nendo; // 年度
-            row.appendChild(nendoCell);
-
-            if (tbodyId == "study-tbody") { // 留学情報
-                const totalDaysCell = document.createElement("td");
-                totalDaysCell.textContent = latestData.TotalDays !== null ? latestData.TotalDays : " "; // 留学期間
-                row.appendChild(totalDaysCell);
-
-                const programNameCell = document.createElement("td");
-                programNameCell.textContent = latestData.ProgramName !== null ? latestData.ProgramName : " "; // プログラム名
-                row.appendChild(programNameCell);
-
-            } else if (tbodyId == "club-tbody") { // 部活動・サークル活動情報
-                const dantaiNameCell = document.createElement("td");
-                dantaiNameCell.textContent = latestData.DantaiName !== null ? latestData.DantaiName : " "; // 団体名
-                row.appendChild(dantaiNameCell);
-
-                const yakuinCell = document.createElement("td");
-                yakuinCell.textContent = latestData.Yakuin !== null ? latestData.Yakuin : " "; // 役職
-                row.appendChild(yakuinCell);
-            } else if (tbodyId == "job-tbody") { // 教育・研究補助業務（スチューデント・ジョブ制度）情報
-                const jobPfCell = document.createElement("td");
-                jobPfCell.textContent = latestData.JobPfName !== null ? latestData.JobPfName : " "; // 業務種別
-                row.appendChild(jobPfCell);
-
-                const workNaiyoCell = document.createElement("td");
-                workNaiyoCell.textContent = latestData.WorkNaiyo !== null ? latestData.WorkNaiyo : " "; // 業務内容
-                row.appendChild(workNaiyoCell);
-
-            }
-            // tbodyに行を追加
-            tbody.appendChild(row);
-    }*/
-
+    }
     // データが存在しない場合は親のテーブルを非表示に設定
     if (!hasData) {
         tbody.closest("table").style.display = 'none';
     }
-
     return hasData;
-
 }
 
-function generateTable($tbody, data, tabName) {
-    $tbody.empty(); // 既存の内容をクリア
-    for (var i = 0; i < data.length; i++) {
-        const row = document.createElement("tr");
-        const nendoCell = document.createElement("td");
-        nendoCell.textContent = data[i].Nendo !== null ? data[i].Nendo : " "; // 年度
-        row.append(nendoCell);
+function generateTable(sortedData, containerId) {
+    const container = document.getElementById(containerId);
 
-        if (tabName == "Study") { // 留学情報
-            const programFromCell = document.createElement("td");
-            programFromCell.textContent = data[i].ProgramFrom !== null ? data[i].ProgramFrom : " "; // プログラム開始日
-            row.append(programFromCell);
-
-            const programToCell = document.createElement("td");
-            programToCell.textContent = data[i].ProgramTo !== null ? data[i].ProgramTo : " "; // プログラム終了日
-            row.append(programToCell);
-
-            const totalDaysCell = document.createElement("td");
-            totalDaysCell.textContent = data[i].TotalDays !== null ? data[i].TotalDays : " "; // 留学期間
-            row.append(totalDaysCell);
-
-            const countryNameCell = document.createElement("td");
-            countryNameCell.textContent = data[i].CountryName !== null ? data[i].CountryName : " "; // 国名
-            row.append(countryNameCell);
-
-            const programNameCell = document.createElement("td");
-            programNameCell.textContent = data[i].ProgramName !== null ? data[i].ProgramName : " "; // プログラム名
-            row.append(programNameCell);
-
-            const taCell = document.createElement("td");
-            taCell.textContent = data[i].Ta !== null ? data[i].Ta : " "; // TA参加
-            row.append(taCell);
-
-        } else if (tabName == "Club") { // クラブ活動情報
-            const dantaiNameCell = document.createElement("td");
-            dantaiNameCell.textContent = data[i].DantaiName !== null ? data[i].DantaiName : " "; // 団体名
-            row.append(dantaiNameCell);
-
-            const katudoKbnNameCell = document.createElement("td");
-            katudoKbnNameCell.textContent = data[i].KatudoKbnName !== null ? data[i].KatudoKbnName : " "; // 活動区分
-            row.append(katudoKbnNameCell);
-
-            const yakuinCell = document.createElement("td");
-            yakuinCell.textContent = data[i].Yakuin !== null ? data[i].Yakuin : " "; // 役職
-            row.append(yakuinCell);
-
-        } else if (tabName == "Job") { // アルバイト情報
-            const periodFromCell = document.createElement("td");
-            periodFromCell.textContent = data[i].PeriodFrom !== null ? data[i].PeriodFrom : " "; // 契約開始日
-            row.append(periodFromCell);
-
-            const periodToCell = document.createElement("td");
-            periodToCell.textContent = data[i].PeriodTo !== null ? data[i].PeriodTo : " "; // 契約終了日
-            row.append(periodToCell);
-
-            const jobNameCell = document.createElement("td");
-            jobNameCell.textContent = data[i].JobName !== null ? data[i].JobName : " "; // 業務名
-            row.append(jobNameCell);
-
-            const jobPfCell = document.createElement("td");
-            jobPfCell.textContent = data[i].JobPfName !== null ? data[i].JobPfName : " "; // 業務種別
-            row.append(jobPfCell);
-
-            const workNaiyoCell = document.createElement("td");
-            workNaiyoCell.textContent = data[i].WorkNaiyo !== null ? data[i].WorkNaiyo : " "; // 業務内容
-            row.append(workNaiyoCell);
+    // 日本語と英語の文言を格納
+    const translations = {
+        ja: {
+            headers: {
+                study: {
+                    title1: ["留学情報"],
+                    title2: ["年度", "プログラム開始日", "プログラム終了日", "留学期間", "国名", "プログラム名", "TA参加"]
+                },
+                club: {
+                    title1: ["部活動・サークル活動情報"],
+                    title2: ["年度", "団体名", "サークル名", "役職"]
+                },
+                job: {
+                    title1: ["教育・研究補助業務情報（スチューデント・ジョブ制度）"],
+                    title2: ["年度", "契約開始日", "契約終了日", "業務名", "業務種別", "業務内容"]
+                }
+            }
+        },
+        en: {
+            headers: {
+                study: {
+                    title1: ["Study information"],
+                    title2: ["Year", "Program start date", "Program end date", "TotalDays", "Country name", "Program name", "TA"]
+                },
+                club: {
+                    title1: ["Club and circle activity information"],
+                    title2: ["Year", "Organization name", "Club name", "Position"]
+                },
+                job: {
+                    title1: ["Educational and research assistance job information (Student Job System)"],
+                    title2: ["Year", "Contract start date", "Contract end date", "Job name", "Job type", "Job description"]
+                }
+            }
         }
-        // tbodyに行を追加
-        $tbody.append(row);
+    };
+
+    const lang = userLang_activities.startsWith("ja") ? "ja" : "en"; // 言語が日本語の場合は"ja"、それ以外は"en"に設定
+    const t = translations[lang]; // 選択された言語に基づいて翻訳を取得
+
+    container.innerHTML = `<h3>${t.header}</h3>`;
+
+    const typeMap = {
+        study: {
+            data: sortedData.study,
+            headerstitle: t.headers.study.title1,
+            headers: t.headers.study.title2,
+            rowTemplate: (item) => `
+                <tr>
+                    <td>${item.Nendo}</td>
+                    <td>${item.ProgramFrom ? item.ProgramFrom.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1/$2/$3') : ''}</td>
+                    <td>${item.ProgramTo ? item.ProgramTo.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1/$2/$3') : ''}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.TotalDays}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.CountryName}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.ProgramName}</td>
+                    <td>${item.Ta}</td>
+                </tr>
+            `
+        },
+        club: {
+            data: sortedData.club,
+            headerstitle: t.headers.club.title1,
+            headers: t.headers.club.title2,
+            rowTemplate: (item) => `
+                <tr>
+                    <td>${item.Nendo}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.DantaiName}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.KatudoKbnName}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.Yakuin}</td>
+                </tr>
+            `
+        },
+        job: {
+            data: sortedData.job,
+            headerstitle: t.headers.job.title1,
+            headers: t.headers.job.title2,
+            rowTemplate: (item) => `
+                <tr>
+                    <td>${item.Nendo}</td>
+                    <td>${item.PeriodFrom ? item.PeriodFrom.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1/$2/$3') : ''}</td>
+                    <td>${item.PeriodTo ? item.PeriodTo.replace(/^(\d{4})(\d{2})(\d{2})$/, '$1/$2/$3') : ''}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.JobName}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.JobPfName}</td>
+                    <td style="text-align: left; left; padding-left: 10px">${item.WorkNaiyo}</td>
+                </tr>
+            `
+        }
+    };
+    container.innerHTML = '';
+    for (const [type, {
+            data,
+            headerstitle,
+            headers,
+            rowTemplate
+        }] of Object.entries(typeMap)) {
+        if (data.length > 0) {
+            container.innerHTML += `<h3>${headerstitle}</h3>`;
+
+            container.innerHTML += `
+                <table class = "activities-table">
+                    <thead>
+                        <tr>
+                            ${headers.map((header,index) => {
+                                if(type === 'study' && (header === t.headers.study.title2[3] || header === t.headers.study.title2[4] || header === t.headers.study.title2[5])){
+                                    return `<th style="text-align: left; padding-left: 10px">${header}</th>`;
+                                }
+                                if(type === 'club' && (header === t.headers.club.title2[1] || header === t.headers.club.title2[2] || header === t.headers.club.title2[3])){
+                                    return `<th style="text-align: left; left; padding-left: 10px">${header}</th>`;
+                                }
+                                if(type === 'job' && (header === t.headers.job.title2[3] || header === t.headers.job.title2[4] || header === t.headers.job.title2[5])){
+                                    return `<th style="text-align: left; left; padding-left: 10px">${header}</th>`;
+                                }
+                                return `<th>${header}</th>`;
+                             }).join("")}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${data.map(rowTemplate).join("")}
+                    </tbody>
+                </table>
+            `;
+        }
     }
 }
