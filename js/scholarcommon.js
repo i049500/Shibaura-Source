@@ -4,7 +4,9 @@ function ScholarGetJSON(containerId) {
 
     const url = '/' + $.getQueryValue('uid') + '/Study/ScholarInfo/Gakuhi&Scholar.json';
     $.getJSON(url)
-        .fail(function(xhr, textStatus, errorThrown) {})
+        .fail(function(xhr, textStatus, errorThrown) {
+            document.getElementById("div_scholar").style.display = 'none';
+        })
         .done(function(data, textStatus, xhr) {
             //alldata = data;
             const scholarData = data.scholar_info;

@@ -4,7 +4,9 @@ function ActivitiesGetJSON(containerId) {
 
     const url = '/' + $.getQueryValue('uid') + '/Study/ActivitiesInfo/ActivitiesInfo.json';
     $.getJSON(url)
-        .fail(function(xhr, textStatus, errorThrown) {})
+        .fail(function(xhr, textStatus, errorThrown) {
+            document.getElementById("div_activitiesInfo").style.display = 'none';
+        })
         .done(function(data, textStatus, xhr) {
             const studyData = data.study_info;
             const jobData = data.jobs_info;
@@ -175,9 +177,9 @@ function createTableData(distributedData, containerId) {
         }
     }
     // データが存在しない場合は親のテーブルを非表示に設定
-    if (!hasData) {
+    /*if (!hasData) {
         tbody.closest("table").style.display = 'none';
-    }
+    }*/
     return hasData;
 }
 
